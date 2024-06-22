@@ -1,20 +1,20 @@
 {
 	"name": "kedan",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Kedan's creative coding toolbox.",
 	"author": "Kedan",
 	"license": "MIT",
 	"dependencies": {
-		"lil-gui": "^0.18.2",
-		"three": "0.156.0"
+		"lil-gui": "^0.19.2",
+		"three": "0.165.0"
 	},
 	"devDependencies": {
-		"eslint": "8.48.0",
-		"prettier": "^3.0.3",
+		"eslint": "9.5.0",
+		"prettier": "^3.3.2",
 		"raw-loader": "4.0.2",
-		"webpack": "5.88.2",
+		"webpack": "5.92.1",
 		"webpack-cli": "5.1.4",
-		"webpack-dev-server": "4.15.1"
+		"webpack-dev-server": "5.0.4"
 	},
 	"scripts": {
 		"start": "webpack serve --mode development"

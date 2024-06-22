@@ -3,4 +3,4 @@
 Kedan's creative coding toolbox.
 
 ***
-*Pierre "Kedan" Audéoud - 2020-2023*
+*Pierre "Kedan" Audéoud - 2024*
