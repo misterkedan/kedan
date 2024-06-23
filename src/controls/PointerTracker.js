@@ -17,7 +17,6 @@ class PointerTracker {
     onChange,
   } = {}) {
     // Compute layout
-
     const defaultMargin = margin > 0 ? margin : 0;
     this.margin = {
       top: margin.top || defaultMargin,
@@ -36,13 +35,11 @@ class PointerTracker {
     this.resize(width, height);
 
     // Set x, y to center of screen
-
     const middle = 0.5;
     this.x = middle;
     this.y = middle;
 
     // Events
-
     this.enabled = enabled;
     this.dispatcher = dispatcher;
 
@@ -118,11 +115,9 @@ class PointerTracker {
     console.log({ x, y });
   }
 
-  /*-------------------------------------------------------------------------/
-
-		Read-only
-
-	/-------------------------------------------------------------------------*/
+  /*---------------------------------------------------------------------------/
+    Read-only
+  /---------------------------------------------------------------------------*/
 
   get xFlip() {
     return flip(this.x);

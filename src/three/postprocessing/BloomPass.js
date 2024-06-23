@@ -3,7 +3,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { GLSL_bayerDither } from 'kedan';
 
 /**
- * Dither edit by Pierre Keda
+ * Dither edit by Kedan
  *
  * Original UnrealBloomPass class from:
  * https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/UnrealBloomPass.js
@@ -32,12 +32,9 @@ class BloomPass extends UnrealBloomPass {
     this.compositeMaterial.uniforms.uDither = new Uniform(dither);
     this.enabled = enabled;
   }
-
-  /*-------------------------------------------------------------------------/
-
+  /*---------------------------------------------------------------------------/
 		Overrides
-
-	/-------------------------------------------------------------------------*/
+	/---------------------------------------------------------------------------*/
 
   getCompositeMaterial(nMips) {
     return new ShaderMaterial({
@@ -108,11 +105,9 @@ class BloomPass extends UnrealBloomPass {
     Object.values(this).forEach((property) => property.dispose?.());
   }
 
-  /*-------------------------------------------------------------------------/
-
+  /*---------------------------------------------------------------------------/
 		Getters & Setters
-
-	/-------------------------------------------------------------------------*/
+	/---------------------------------------------------------------------------*/
 
   get dither() {
     return this.compositeMaterial.uniforms.uDither.value;
