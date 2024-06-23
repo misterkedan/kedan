@@ -30,6 +30,38 @@ export * from './utils/Utils';
   GLSL
 /-----------------------------------------------------------------------------*/
 
+import GLSL_backIn from './glsl/easings/backIn.glsl';
+import GLSL_backInOut from './glsl/easings/backInOut.glsl';
+import GLSL_backOut from './glsl/easings/backOut.glsl';
+import GLSL_bounceIn from './glsl/easings/bounceIn.glsl';
+import GLSL_bounceInOut from './glsl/easings/bounceInOut.glsl';
+import GLSL_bounceOut from './glsl/easings/bounceOut.glsl';
+import GLSL_circIn from './glsl/easings/circIn.glsl';
+import GLSL_circInOut from './glsl/easings/circInOut.glsl';
+import GLSL_circOut from './glsl/easings/circOut.glsl';
+import GLSL_cubicIn from './glsl/easings/cubicIn.glsl';
+import GLSL_cubicInOut from './glsl/easings/cubicInOut.glsl';
+import GLSL_cubicOut from './glsl/easings/cubicOut.glsl';
+import GLSL_elasticIn from './glsl/easings/elasticIn.glsl';
+import GLSL_elasticInOut from './glsl/easings/elasticInOut.glsl';
+import GLSL_elasticOut from './glsl/easings/elasticOut.glsl';
+import GLSL_expoIn from './glsl/easings/expoIn.glsl';
+import GLSL_expoInOut from './glsl/easings/expoInOut.glsl';
+import GLSL_expoOut from './glsl/easings/expoOut.glsl';
+import GLSL_linear from './glsl/easings/linear.glsl';
+import GLSL_quadIn from './glsl/easings/quadIn.glsl';
+import GLSL_quadInOut from './glsl/easings/quadInOut.glsl';
+import GLSL_quadOut from './glsl/easings/quadOut.glsl';
+import GLSL_quartIn from './glsl/easings/quartIn.glsl';
+import GLSL_quartInOut from './glsl/easings/quartInOut.glsl';
+import GLSL_quartOut from './glsl/easings/quartOut.glsl';
+import GLSL_quintIn from './glsl/easings/quintIn.glsl';
+import GLSL_quintInOut from './glsl/easings/quintInOut.glsl';
+import GLSL_quintOut from './glsl/easings/quintOut.glsl';
+import GLSL_sineIn from './glsl/easings/sineIn.glsl';
+import GLSL_sineInOut from './glsl/easings/sineInOut.glsl';
+import GLSL_sineOut from './glsl/easings/sineOut.glsl';
+
 import GLSL_parabola from './glsl/functions/parabola.glsl';
 
 import GLSL_bayerDither from './glsl/gradients/bayerDither.glsl';
@@ -53,6 +85,37 @@ import GLSL_packFloat from './glsl/packFloat.glsl';
 import GLSL_unpackFloat from './glsl/unpackFloat.glsl';
 
 export {
+  GLSL_backIn,
+  GLSL_backInOut,
+  GLSL_backOut,
+  GLSL_bounceIn,
+  GLSL_bounceInOut,
+  GLSL_bounceOut,
+  GLSL_circIn,
+  GLSL_circInOut,
+  GLSL_circOut,
+  GLSL_cubicIn,
+  GLSL_cubicInOut,
+  GLSL_cubicOut,
+  GLSL_elasticIn,
+  GLSL_elasticInOut,
+  GLSL_elasticOut,
+  GLSL_expoIn,
+  GLSL_expoInOut,
+  GLSL_expoOut,
+  GLSL_linear,
+  GLSL_quadIn,
+  GLSL_quadInOut,
+  GLSL_quadOut,
+  GLSL_quartIn,
+  GLSL_quartInOut,
+  GLSL_quartOut,
+  GLSL_quintIn,
+  GLSL_quintInOut,
+  GLSL_quintOut,
+  GLSL_sineIn,
+  GLSL_sineInOut,
+  GLSL_sineOut,
   GLSL_parabola,
   GLSL_bayerDither,
   GLSL_linearGradient,
