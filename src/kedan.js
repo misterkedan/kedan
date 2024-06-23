@@ -22,14 +22,15 @@ export { Simplex } from './random/Simplex';
 
 // Utils
 export * as TextUtils from './utils/TextUtils';
-export * as Utils from './utils/Utils';
 export * from './utils/TextUtils';
+export * as Utils from './utils/Utils';
 export * from './utils/Utils';
 
 /*-----------------------------------------------------------------------------/
   GLSL
 /-----------------------------------------------------------------------------*/
 
+// Easings
 import GLSL_backIn from './glsl/easings/backIn.glsl';
 import GLSL_backInOut from './glsl/easings/backInOut.glsl';
 import GLSL_backOut from './glsl/easings/backOut.glsl';
@@ -62,23 +63,29 @@ import GLSL_sineIn from './glsl/easings/sineIn.glsl';
 import GLSL_sineInOut from './glsl/easings/sineInOut.glsl';
 import GLSL_sineOut from './glsl/easings/sineOut.glsl';
 
+// Functions
 import GLSL_parabola from './glsl/functions/parabola.glsl';
 
+// Gradients
 import GLSL_bayerDither from './glsl/gradients/bayerDither.glsl';
 import GLSL_linearGradient from './glsl/gradients/linearGradient.glsl';
 import GLSL_radialGradient from './glsl/gradients/radialGradient.glsl';
 
+// Random
 import GLSL_simplex2D from './glsl/random/simplex2D.glsl';
 import GLSL_simplex3D from './glsl/random/simplex3D.glsl';
 import GLSL_simplex4D from './glsl/random/simplex4D.glsl';
 
-import GLSL_basicVaryingUV_vertex from './glsl/shaders/basicVaryingUV.vertex.glsl';
+// Shaders
+import GLSL_vUv_vertex from './glsl/shaders/basicVaryingUV.vertex.glsl';
 
+// Transform
 import GLSL_rotateX from './glsl/transform/rotateX.glsl';
 import GLSL_rotateY from './glsl/transform/rotateY.glsl';
 import GLSL_rotateZ from './glsl/transform/rotateZ.glsl';
 import GLSL_scale from './glsl/transform/scale.glsl';
 
+// Misc
 import GLSL_lookAt from './glsl/lookAt.glsl';
 import GLSL_loopValue from './glsl/loopValue.glsl';
 import GLSL_packFloat from './glsl/packFloat.glsl';
@@ -123,7 +130,7 @@ export {
   GLSL_simplex2D,
   GLSL_simplex3D,
   GLSL_simplex4D,
-  GLSL_basicVaryingUV_vertex,
+  GLSL_vUv_vertex,
   GLSL_rotateX,
   GLSL_rotateY,
   GLSL_rotateZ,
@@ -148,6 +155,9 @@ export { SimplexGradientBackground } from './three/background/SimplexGradientBac
 export { CameraRig } from './three/controls/CameraRig';
 export { PointerProjector } from './three/controls/PointerProjector';
 
+// Geometries
+export { CenteredTextGeometry } from './three/geometries/CenteredTextGeometry';
+
 // GPGPU
 export { GPGPU } from './three/gpgpu/GPGPU';
 export { GPGPUConstant } from './three/gpgpu/GPGPUConstant';
@@ -160,6 +170,5 @@ export { RadialBlurPass } from './three/postprocessing/RadialBlurPass';
 
 // Utils
 export { CameraBounds } from './three/utils/CameraBounds';
-
 export * as ThreeUtils from './three/utils/ThreeUtils';
 export * from './three/utils/ThreeUtils';
