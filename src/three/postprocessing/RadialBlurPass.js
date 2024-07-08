@@ -1,6 +1,6 @@
 import { ShaderMaterial, Vector2 } from 'three';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { GLSL_basicVaryingUV_vertex, GLSL_bayerDither } from 'kedan';
+import { GLSL_vUv_vertex, GLSL_bayerDither } from 'kedan';
 
 const fragmentShader = /*glsl*/ `
 uniform sampler2D tDiffuse;
@@ -63,7 +63,7 @@ class RadialBlurPass extends ShaderPass {
           uStrength: { value: strength },
           uDither: { value: dither },
         },
-        vertexShader: GLSL_basicVaryingUV_vertex,
+        vertexShader: GLSL_vUv_vertex,
         fragmentShader,
       })
     );
