@@ -109,13 +109,17 @@ class Ticker {
     this.reset();
   }
 
+  /*---------------------------------------------------------------------------/
+    Getters & Setters
+  /---------------------------------------------------------------------------*/
+
   get fps() {
     return this._fps;
   }
 
-  set fps(uint) {
-    this._fps = uint;
-    this._frameDuration = uint > 0 ? Math.round(1000 / uint) : 0;
+  set fps(fps) {
+    this._fps = fps;
+    this._frameDuration = fps > 0 ? Math.round(1000 / fps) : 0;
   }
 }
 

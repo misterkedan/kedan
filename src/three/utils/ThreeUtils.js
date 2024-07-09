@@ -7,7 +7,7 @@ import {
   SubtractiveBlending,
   Vector3,
 } from 'three';
-import { trimFloat } from 'kedan';
+import { is, trimFloat } from 'kedan';
 
 export function customizeShader(
   shader,

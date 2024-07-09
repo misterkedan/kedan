@@ -1,4 +1,42 @@
-export function elementsArrayFrom(inputs) {
+import { is } from 'kedan';
+
+/*-----------------------------------------------------------------------------/
+  CSS
+/-----------------------------------------------------------------------------*/
+
+export const toCSS = (object, selector, tab = '  ') =>
+  Object.entries(object).reduce((css, [key, value]) => {
+    css += `${tab}${key}: ${value};\n`;
+    return css;
+  }, `${selector}{\n`) + '}';
+
+export const updateCSS = (style, css) => {
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css; // IE8-
+  } else {
+    css = document.createTextNode(css);
+    style.appendChild(css);
+  }
+};
+
+export const createCSS = (css) => {
+  const style = document.createElement('style');
+  if (css) updateCSS(style, css);
+  document.head.appendChild(style);
+  return style;
+};
+
+export const enable = (...elements) =>
+  elements.forEach((element) => element?.classList.add('enabled'));
+
+export const disable = (...elements) =>
+  elements.forEach((element) => element?.classList.remove('enabled'));
+
+/*-----------------------------------------------------------------------------/
+  HTML
+/-----------------------------------------------------------------------------*/
+
+export const elementsArrayFrom = (inputs) => {
   if (!Array.isArray(inputs)) inputs = [inputs];
 
   return inputs.reduce((result, input) => {
@@ -10,9 +48,9 @@ export function elementsArrayFrom(inputs) {
 
     return result;
   }, []);
-}
+};
 
-export function getElement(input, container = document.body) {
+export const getElement = (input, container = document.body) => {
   if (is.html(input)) return input;
 
   const inputIsString = is.string(input);
@@ -27,11 +65,11 @@ export function getElement(input, container = document.body) {
   container.appendChild(div);
 
   return div;
-}
+};
 
-export function saveCanvasAsPNG(canvas, name) {
+export const saveCanvasAsPNG = (canvas, name) => {
   const link = document.createElement('a');
   link.download = `${name}.png`;
   link.href = canvas.toDataURL('image/png');
   link.click();
-}
+};

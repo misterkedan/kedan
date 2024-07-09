@@ -1,7 +1,3 @@
-// Controllers
-export { Presentation } from './controllers/Presentation';
-export { Ticker } from './controllers/Ticker';
-
 // Controls
 export { CanvasResizer } from './controls/CanvasResizer';
 export { GUI } from './controls/GUI';
@@ -21,6 +17,8 @@ export { Random } from './random/Random';
 export { Simplex } from './random/Simplex';
 
 // Utils
+export { Presentation } from './utils/Presentation';
+export { Ticker } from './utils/Ticker';
 export * as TextUtils from './utils/TextUtils';
 export * from './utils/TextUtils';
 export * as Utils from './utils/Utils';
@@ -167,6 +165,15 @@ export { GPGPUVariable } from './three/gpgpu/GPGPUVariable';
 export { BloomPass } from './three/postprocessing/BloomPass';
 export { FXAAPass } from './three/postprocessing/FXAAPass';
 export { RadialBlurPass } from './three/postprocessing/RadialBlurPass';
+
+// Sketchpad
+export { Controls } from './three/sketchpad/Controls';
+export { Effects } from './three/sketchpad/Effects';
+export { Overlay } from './three/sketchpad/Overlay';
+export { Sketch } from './three/sketchpad/Sketch';
+export { SketchGUI } from './three/sketchpad/SketchGUI';
+export { Sketchpad } from './three/sketchpad/Sketchpad';
+export { Stage } from './three/sketchpad/Stage';
 
 // Utils
 export { CameraBounds } from './three/utils/CameraBounds';
