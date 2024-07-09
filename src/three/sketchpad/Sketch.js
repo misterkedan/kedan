@@ -52,9 +52,7 @@ class Sketch {
   }
 
   /*-------------------------------------------------------------------------/
-
 		Stage shortcutss
-
 	/-------------------------------------------------------------------------*/
 
   add(input) {
@@ -77,9 +75,7 @@ class Sketch {
   }
 
   /*-------------------------------------------------------------------------/
-
 		Update
-
 	/-------------------------------------------------------------------------*/
 
   dispose() {
@@ -100,59 +96,46 @@ class Sketch {
   }
 
   /*-------------------------------------------------------------------------/
-
 		Read-only
-
 	/-------------------------------------------------------------------------*/
 
   get aspect() {
     return this.camera.aspect;
   }
-
   get output() {
     return this.effects.composer.readBuffer.texture;
   }
-
   get sfx() {
     return this.effects.passes;
   }
 
   // Config
-
   get config() {
-    return this.settings.sk3tch;
+    return this.settings.sketchpad;
   }
-
   get author() {
     return this.config.author;
   }
-
   get name() {
     return this.config.name || 'Untitled';
   }
-
   get autoTitle() {
     return this.author ? `${this.name} - ${this.author}` : this.name;
   }
 
   // Sketchpad
-
   get canvas() {
     return this.sketchpad.canvas;
   }
-
   get container() {
     return this.sketchpad.container;
   }
-
   get device() {
     return this.sketchpad.device;
   }
-
   get ticker() {
     return this.sketchpad.ticker;
   }
-
   get overlay() {
     return this.sketchpad.overlay;
   }

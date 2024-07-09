@@ -67,7 +67,7 @@ class Controls {
 
     const { camera } = this.sketch;
     const { bounds, speed, intro } = options;
-    const lookAt = options.lookAt || this.settings.sk3tch.camera.lookAt;
+    const lookAt = options.lookAt || this.settings.sketchpad.camera.lookAt;
 
     this.cameraRig = new CameraRig({ camera, lookAt, bounds, speed, intro });
 

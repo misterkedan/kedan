@@ -1,5 +1,5 @@
 const DemoSettings = {
-  sk3tch: {
+  sketchpad: {
     name: 'Demo',
     date: '2024',
     author: 'Kedan',
