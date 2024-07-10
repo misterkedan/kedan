@@ -106,7 +106,8 @@ table {
 	text-shadow: 0 0 0.4em rgba(0, 0, 0, 0.4);
 }
 
-.sketchpad-gui, .sketchpad.stats {
+.sketchpad-gui,
+.sketchpad-stats {
   pointer-events: initial;
 }
 
@@ -124,6 +125,15 @@ table {
   left: 1rem !important;
 }
 
+.sketchpad-footer {
+	position: fixed;
+	bottom: 2rem;
+	width: 100%;
+	font-size: 1.3rem;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.4);
+}
+
 .sketchpad-link {
 	color: rgba(255, 255, 255, 0.6);
 	text-decoration: none;
@@ -133,15 +143,6 @@ table {
 		text-decoration: underline;
 		color: rgba(255, 255, 255, 1);
 	}
-
-.sketchpad-footer {
-	position: fixed;
-	bottom: 2rem;
-	width: 100%;
-	font-size: 1.3rem;
-	text-align: center;
-	color: rgba(255, 255, 255, 0.4);
-}
 
 @media (max-height: 160px) {
 	.sketchpad-footer {
