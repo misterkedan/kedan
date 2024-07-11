@@ -85,7 +85,7 @@ import GLSL_scale from './glsl/transform/scale.glsl';
 
 // Misc
 import GLSL_lookAt from './glsl/lookAt.glsl';
-import GLSL_loopValue from './glsl/loopValue.glsl';
+import GLSL_loopFloat from './glsl/loopFloat.glsl';
 import GLSL_packFloat from './glsl/packFloat.glsl';
 import GLSL_unpackFloat from './glsl/unpackFloat.glsl';
 
@@ -134,7 +134,7 @@ export {
   GLSL_rotateZ,
   GLSL_scale,
   GLSL_lookAt,
-  GLSL_loopValue,
+  GLSL_loopFloat,
   GLSL_packFloat,
   GLSL_unpackFloat,
 };
