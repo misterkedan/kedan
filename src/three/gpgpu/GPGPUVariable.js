@@ -1,5 +1,12 @@
 import { ShaderMaterial, Uniform } from 'three';
-import { GLSL_packFloat, GLSL_unpackFloat, GPGPU, is } from 'kedan';
+import {
+  GPGPU,
+  GLSL_packFloat,
+  GLSL_unpackFloat,
+  packFloat,
+  unpackFloat,
+  is,
+} from 'kedan';
 
 class GPGPUVariable {
   /**
@@ -42,23 +49,18 @@ class GPGPUVariable {
       throw new Error('Use GPGPU.init(renderer) before instancing.');
 
     // Length & texture size
-
     if (data) length = data.length;
     else if (textureSize) length = textureSize * textureSize;
-
     if (!textureSize) textureSize = GPGPU.getTextureSize(length);
     this.textureSize = textureSize;
 
     // RenderTarget x2
-
     this.rt1 = GPGPU.createRenderTarget(textureSize);
     this.rt2 = GPGPU.createRenderTarget(textureSize);
     this.renderTarget = this.rt1;
 
     // DataTexture
-
     this.dataTexture = GPGPU.createDataTexture(textureSize);
-
     if (data) {
       this.write(data);
     } else {
@@ -67,15 +69,12 @@ class GPGPUVariable {
     }
 
     // Uniforms
-
     this.output = new Uniform(this.dataTexture);
-
     this.name = prefix ? prefix + name : name;
     this.uniforms = uniforms;
     this.uniforms[this.name] = this.output;
 
     // ShaderMaterial
-
     this.setShader(shader);
   }
 
@@ -85,13 +84,11 @@ class GPGPUVariable {
    */
   setShader(fragmentShader) {
     if (this.material) this.material.dispose();
-
     this.material = new ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader: GPGPUVariable.vertexShader,
       fragmentShader,
     });
-
     GPGPU.setResolution(this.material, this.textureSize);
   }
 
@@ -129,13 +126,10 @@ class GPGPUVariable {
         fragmentShader: input,
       });
     else Object.assign(input.uniforms, uniforms);
-
     GPGPU.setResolution(input, this.textureSize);
-
     this.compute(input);
 
     if (disposeAfter) input.dispose();
-
     return input;
   }
 
@@ -180,10 +174,8 @@ class GPGPUVariable {
       this.textureSize,
       this.buffer
     );
-
     const data = this.createDataArray();
-    GPGPU.FloatPack.unpack(this.buffer, data);
-
+    unpackFloat(this.buffer, data);
     return data;
   }
 
@@ -192,7 +184,7 @@ class GPGPUVariable {
    * @param {Array} data An array of numbers to encode.
    */
   write(data) {
-    GPGPU.FloatPack.pack(data, this.buffer);
+    packFloat(data, this.buffer);
   }
 
   /*---------------------------------------------------------------------------/
@@ -225,7 +217,7 @@ void main() {
   float data = unpackFloat(texture2D(GPGPU_data, uv));
 
   // Modify data here...
-  
+
   gl_FragColor = packFloat(data);
 }
 `;

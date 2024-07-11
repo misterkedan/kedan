@@ -30,15 +30,18 @@ import { forXYZ, GPGPUConstant, GPGPUVariable, logNameTaken } from 'kedan';
 
 class GPGPU {
   /**
-   * Creates a GPGPU object to regroup GPGPU variables and constants, and add
-   * batch utility.
-   * @param {Number} size A texture size (power of 2), or a count of objects
-   * to be computed (requires computeSize set to true).
-   * @param {Boolean} computeSize Whether the size needs to be computed via
-   * GPGPU.getTextureSize (default: true).
+   * Creates a GPGPU object to regroup GPGPU variables and constants.
+   * @param {Object} options Option object, containing either a count or
+   * a texture size.
+   * @param {Number} options.count Total number of objects to be computed
+   * (the required texture size will be computed automatically).
+   * @param {Number} options.textureSize A texture size (power of 2) that will
+   * be applied by default to all constants/variables assigned to this instance.
+   * One pixel can store one value, so for example a texture size of 64px will
+   * allow the computation of 64 x 64 = 4094 values.
    */
-  constructor(size, computeSize = true) {
-    this._textureSize = computeSize ? GPGPU.getTextureSize(size) : size;
+  constructor({ count, textureSize = 512 } = {}) {
+    this._textureSize = count ? GPGPU.getTextureSize(count) : textureSize;
     this.constants = {};
     this.variables = {};
   }
@@ -58,7 +61,6 @@ class GPGPU {
     if (this.constants[name] || this[name]) return logNameTaken(name);
 
     const { textureSize } = this;
-
     const constant = new GPGPUConstant(input, {
       ...options,
       name,
@@ -82,7 +84,6 @@ class GPGPU {
     if (this.variables[name] || this[name]) return logNameTaken(name);
 
     const { textureSize } = this;
-
     const variable = new GPGPUVariable({
       ...options,
       name,
@@ -262,11 +263,11 @@ GPGPU.init = (renderer) => {
     GPGPU.isSupported = true;
 
     if (!GPGPU.renderer.capabilities.maxVertexTextures) {
-      console.warn('No support for vertex textures.');
+      console.warn('No support for vertex textures');
       GPGPU.isSupported = false;
     }
 
-    if (!GPGPU.isSupported) window.alert('Incompatible hardware.');
+    if (!GPGPU.isSupported) window.alert('Incompatible hardware');
 
     return GPGPU.isSupported;
   };
@@ -292,11 +293,10 @@ GPGPU.init = (renderer) => {
  */
 GPGPU.getTextureSize = (count, maxSize = 65536) => {
   if (isNaN(count) || !isFinite(count) || !Number.isInteger(count) || count < 1)
-    throw new RangeError('Parameter must be an int > 0 ');
+    throw new RangeError('Count must be uint');
 
   let n = 1;
   let size = 2;
-
   while (size < maxSize && size * size < count) {
     size = Math.pow(2, n);
     n++;
@@ -404,7 +404,6 @@ GPGPU.createTexelAttribute = ({
 } = {}) => {
   const texelCount = textureSize * textureSize;
   count = count ? Math.min(count, texelCount) : texelCount;
-
   const length = count * vertices;
   const texels = new Float32Array(length * 2);
 
@@ -421,7 +420,6 @@ GPGPU.createTexelAttribute = ({
   const attribute = instanced
     ? new InstancedBufferAttribute(texels, 2)
     : new Float32BufferAttribute(texels, 2);
-
   if (geometry) geometry.setAttribute(name, attribute);
 
   return attribute;

@@ -13,7 +13,7 @@ class GPGPUConstant {
    * @param {String} options.prefix Prefix for the name of the variable
    * (default: 'GPGPU_').
    * @param {Number} options.textureSize A texture size (power of 2).
-   * @param {Object} optinos.uniforms A uniform object (if input is a fragment
+   * @param {Object} options.uniforms A uniform object (if input is a fragment
    * shader).
    */
   constructor(
@@ -50,7 +50,6 @@ class GPGPUConstant {
     this.dispose();
 
     this.dataTexture = GPGPU.createDataTexture(this.textureSize);
-
     packFloat(array, this.dataTexture.image.data);
 
     this.output.value = this.dataTexture;
@@ -65,9 +64,7 @@ class GPGPUConstant {
 
     GPGPU.setResolution(shaderMaterial, this.textureSize);
     this.shaderMaterial = shaderMaterial;
-
     this.renderTarget = GPGPU.createRenderTarget(this.textureSize);
-
     GPGPU.render(shaderMaterial, this.renderTarget);
 
     this.output.value = this.renderTarget.texture;
