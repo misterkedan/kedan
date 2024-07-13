@@ -29,11 +29,13 @@ class GPGPUVariable {
    * (default: 'GPGPU_').
    * @param {Number} options.defaultValue Value to default the data to if
    * the input is a length.
-   * @param {String} options.shader The fragmentShader that will be used
-   * for GPGPU computations. See GPGPU.fragmentShader for an example/template.
    * @param {String} options.uniforms Uniforms used by the fragmentShader.
    * Note that an uniform will be created automatically, using the prefix+name
    * of the variable, for the data texture current value.
+   * @param {String} options.shader The fragmentShader that will be used
+   * for GPGPU computations. See GPGPU.fragmentShader for an example/template.
+   * @param {String} options.init A fragmentShader that will be ran just
+   * once to fill the data texture
    */
   constructor({
     data,
@@ -42,8 +44,9 @@ class GPGPUVariable {
     length = 65536, // 256 x 256
     name = 'data',
     prefix = 'GPGPU_',
-    shader = GPGPUVariable.fragmentShader,
     uniforms = {},
+    shader = GPGPUVariable.fragmentShader,
+    init,
   } = {}) {
     if (!GPGPU.renderer)
       throw new Error('Use GPGPU.init(renderer) before instancing.');
@@ -76,6 +79,9 @@ class GPGPUVariable {
 
     // ShaderMaterial
     this.setShader(shader);
+
+    // Init
+    if (init) this.computeOnce(init);
   }
 
   /**
@@ -119,18 +125,19 @@ class GPGPUVariable {
    * @returns {ShaderMaterial} The used/modified ShaderMaterial.
    */
   computeOnce(input, { uniforms = {}, disposeAfter = true } = {}) {
-    if (is.string(input))
+    if (input instanceof ShaderMaterial === true)
+      Object.assign(input.uniforms, uniforms);
+    else if (is.string(input))
       input = new ShaderMaterial({
         uniforms,
         vertexShader: GPGPUVariable.vertexShader,
         fragmentShader: input,
       });
-    else Object.assign(input.uniforms, uniforms);
+    else return logInvalidArgument(input);
+
     GPGPU.setResolution(input, this.textureSize);
     this.compute(input);
-
     if (disposeAfter) input.dispose();
-    return input;
   }
 
   /**

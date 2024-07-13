@@ -26,30 +26,32 @@ import {
   UnsignedByteType,
   WebGLRenderTarget,
 } from 'three';
-import { forXYZ, GPGPUConstant, GPGPUVariable, logNameTaken } from 'kedan';
+import { GPGPUConstant, GPGPUVariable, logNameTaken } from 'kedan';
 
 class GPGPU {
   /**
    * Creates a GPGPU object to regroup GPGPU variables and constants.
    * @param {Object} options Option object, containing either a count or
    * a texture size.
+   * @param {WebGLRenderer} options.renderer Renderer to use for GPGPU
+   * computations.
    * @param {Number} options.count Total number of objects to be computed
    * (the required texture size will be computed automatically).
    * @param {Number} options.textureSize A texture size (power of 2) that will
-   * be applied by default to all constants/variables assigned to this instance.
+   * be applied by default to all constants/variables applied to this instance.
    * One pixel can store one value, so for example a texture size of 64px will
    * allow the computation of 64 x 64 = 4094 values.
    */
-  constructor({ count, textureSize = 512 } = {}) {
+  constructor({ renderer, count, textureSize = 512 } = {}) {
+    if (renderer) GPGPU.init(renderer);
     this._textureSize = count ? GPGPU.getTextureSize(count) : textureSize;
     this.constants = {};
     this.variables = {};
+    this.uniforms = {};
   }
 
   /**
    * Adds a GPGPUConstant.
-   * The constant will be accessible via instance.constants.name.
-   * The constant's output (texture uniform) will be accessible via instance.name.
    * @param {String} name A constant name, must be unique per instance.
    * @param {Array|ShaderMaterial|String} input Can be either an array
    * of numbers to encode in texture form, a ShaderMaterial to render once,
@@ -58,7 +60,7 @@ class GPGPU {
    * @returns {GPGPUConstant} The created GPGPUConstant.
    */
   addConstant(name, input, options) {
-    if (this.constants[name] || this[name]) return logNameTaken(name);
+    if (this[name]) return logNameTaken(name);
 
     const { textureSize } = this;
     const constant = new GPGPUConstant(input, {
@@ -66,22 +68,21 @@ class GPGPU {
       name,
       textureSize,
     });
+    this[name] = constant;
     this.constants[name] = constant;
-    this[name] = constant.output;
+    this.uniforms[constant.name] = constant.output;
 
     return constant;
   }
 
   /**
    * Adds a GPGPUVariable.
-   * The variable will be accessible via instance.variables.name.
-   * The variable's output (texture uniform) will be accessible via instance.name.
    * @param {String} name A variable name, must be unique per instance.
    * @param {Object} options GPGPUVariable options.
    * @returns {GPGPUVariable} The created GPGPUVariable.
    */
   addVariable(name, options) {
-    if (this.variables[name] || this[name]) return logNameTaken(name);
+    if (this[name]) return logNameTaken(name);
 
     const { textureSize } = this;
     const variable = new GPGPUVariable({
@@ -89,34 +90,45 @@ class GPGPU {
       name,
       textureSize,
     });
+    this[name] = variable;
     this.variables[name] = variable;
-    this[name] = variable.output;
+    this.uniforms[variable.name] = variable.output;
 
     return variable;
   }
 
   /**
-   * Assign one of this instance's constant/variable texture uniform output
-   * to another variable's uniforms. This allows to read the data in the shader
-   * of the target variable.
-   * Use the same names provided by addVariable(name) and addConstant(name).
-   * Can assign multiple sources at once, for example assign('x', 'y', 'z')
-   * will assign both y and z to x.
-   * @param {String} targetKey The name of one of this GPGPU instance's
-   * variables, that will be assigned the uniforms.
-   * @param {String} sourceKeys One or more of this GPGPU instance's
-   * constant or variables, which outputs will be assigned to the target
-   * variable.
+   * Adds either a GPGPUVariable or a GPGPUConstant, depending on whether the 3rd
+   * argument (GPGPUConstant input) is provided.
+   * @param {String} name A variable/constant name, must be unique per instance.
+   * @param {Object} options GPGPUVariable/GPGPUConstant options
+   * @param {Array|ShaderMaterial|String} input A GPGPUConstant input, can be either an array
+   * of numbers to encode in texture form, a ShaderMaterial to render once,
+   * or a fragment shader as a String.
+   * @returns {GPGPUConstant|GPGPUVariable} The created GPGPU variable/constant
    */
-  assign(targetKey, ...sourceKeys) {
-    const target = this.variables[targetKey];
-    if (!target) return console.warn('Target not found:', targetKey);
+  add(name, options, input) {
+    return input
+      ? this.addConstant(name, input, options)
+      : this.addVariable(name, options);
+  }
 
-    sourceKeys.forEach((sourceKey) => {
-      const source = this.variables[sourceKey] || this.constants[sourceKey];
+  /**
+   * Assign the output (texture uniform) of one of this instance's GPGPU variables
+   * (or constants) to the uniforms one or more other variable(s)/constant(s),
+   * using the variable name specified with addVariable() or addConstant()
+   * @param {String} variableKey The name of the variable
+   * @param {String} targets The name(s) of one or more of this GPGPU instance's
+   * constants or variables , which will receive the key variable's uniform.
+   */
+  bind(variableKey, ...targets) {
+    const variable = this[variableKey];
+    if (!variable) return console.warn('Variable not found:', variable);
 
-      if (source) target.uniforms[source.name] = source.output;
-      else console.warn('Source not found:', sourceKey);
+    targets.forEach((targetKey) => {
+      const target = this.variables[targetKey];
+      if (!target) return console.warn('target not found:', targetKey);
+      target.uniforms[variable.name] = variable.output;
     });
   }
 
@@ -125,23 +137,29 @@ class GPGPU {
    * first). This is helpful in a lot of situations, since GPGPU is commonly
    * used to compute particles positions, motion etc.
    */
-  assignXYZ() {
-    const x = 'x';
-    const y = 'y';
-    const z = 'z';
-    this.assign(x, y, z);
-    this.assign(y, x, z);
-    this.assign(z, x, y);
+  bindXYZ() {
+    const { x, y, z } = this;
+    GPGPU.bind(x, y, z);
+    GPGPU.bind(y, x, z);
+    GPGPU.bind(z, x, y);
   }
 
   /**
-   * Creates x y and z variables, and optionally assigns them to each other.
-   * @param {Object} options Shared GPGPUVariable options.
-   * @param {Boolean} autoAssign Whether to call assignXYZ (default: true).
+   * Creates x y and z variables, and optionally bind them to each other.
+   * @param {Object} options.x GPGPUVariable options for the variable x.
+   * @param {Object} options.y GPGPUVariable options for the variable y.
+   * @param {Object} options.z GPGPUVariable options for the variable z.
+   * @param {Object} options.uniforms Shared GPGPUVariable uniforms.
+   * @param {Object} options.options Shared GPGPUVariable options.
+   * @param {Boolean} options.autoAssign Whether to bind all xyz variables
+   * to each other (default: true).
    */
-  addXYZ(options, autoAssign = true) {
-    forXYZ((variable) => this.addVariable(variable, options));
-    if (autoAssign) this.assignXYZ();
+  addXYZ({ x, y, z, uniforms, options = {}, autoAssign = true } = {}) {
+    if (uniforms) options.uniforms = uniforms;
+    this.addVariable('x', { ...options, ...x });
+    this.addVariable('y', { ...options, ...y });
+    this.addVariable('z', { ...options, ...z });
+    if (autoAssign) this.bindXYZ();
   }
 
   /**
@@ -180,6 +198,31 @@ class GPGPU {
 	/---------------------------------------------------------------------------*/
 
   /**
+   * Adds all constants & variables texture output uniforms to a target uniform
+   * object. This is useful for adding GPGPU textures to the final material
+   * shaders.
+   * @param {Object} uniforms The uniform object to add uniforms to.
+   */
+  bindTo(uniforms) {
+    //this.forEach((property) => (uniforms[property.name] = property.output));
+    Object.assign(uniforms, this.uniforms);
+  }
+
+  /**
+   * Disposes all ressources used by this instance and its constants and variables.
+   * Textures, ShaderMaterials, WebGLRenderTargets...
+   */
+  dispose() {
+    Object.entries(this).forEach(([key, value]) => {
+      value.dispose?.();
+      this[key] = null;
+    });
+    this.constants = {};
+    this.variables = {};
+    this.uniforms = {};
+  }
+
+  /**
    * Executes a function for each of this instance's constants.
    * @param {Function} func A function to execute for every constant.
    */
@@ -202,31 +245,6 @@ class GPGPU {
   forEach(func) {
     Object.values(this.constants).forEach(func);
     Object.values(this.variables).forEach(func);
-  }
-
-  /**
-   * Adds all constants & variables texture output uniforms to a target uniform
-   * object. This is useful for adding GPGPU textures to the final material
-   * shaders.
-   * @param {Object} uniforms The uniform object to add uniforms to.
-   */
-  bindTo(uniforms) {
-    this.forEach((property) => (uniforms[property.name] = property.output));
-  }
-
-  /**
-   * Disposes all ressources used by this instance and its constants and variables.
-   * Textures, ShaderMaterials, WebGLRenderTargets...
-   */
-  dispose() {
-    Object.entries(this).forEach(([key, value]) => {
-      value.value?.dispose?.();
-      value.dispose?.();
-      this[key] = null;
-    });
-
-    this.constants = {};
-    this.variables = {};
   }
 
   /**
@@ -423,6 +441,19 @@ GPGPU.createTexelAttribute = ({
   if (geometry) geometry.setAttribute(name, attribute);
 
   return attribute;
+};
+
+/**
+ * Assign the output (texture uniform) of a GPGPU variable (or constant) to
+ * the uniforms one or more other variable(s)/constant(s).
+ * @param {GPGPUVariable|GPGPUConstant} variable A GPGPU variable or constant.
+ * @param {GPGPUVariable|GPGPUConstant} targets One or more GPGPU variables
+ * or constants, that will receive the variable's output in their uniforms.
+ */
+GPGPU.bind = (variable, ...targets) => {
+  targets.forEach((target) => {
+    target.uniforms[variable.name] = variable.output;
+  });
 };
 
 export { GPGPU };
