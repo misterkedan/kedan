@@ -1,13 +1,13 @@
 import { Color } from 'three';
 import {
-  Controls,
+  AbstractControls,
   LinearGradientBackground,
   RadialGradientBackground,
   SimplexGradientBackground,
   Swiper,
 } from 'kedan';
 
-class DemoControls extends Controls {
+class Controls extends AbstractControls {
   /*---------------------------------------------------------------------------/
 		Overrides
 	/---------------------------------------------------------------------------*/
@@ -207,4 +207,4 @@ class DemoControls extends Controls {
   }
 }
 
-export { DemoControls };
+export default new Controls();

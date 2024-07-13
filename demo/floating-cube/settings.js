@@ -1,6 +1,6 @@
-const DemoSettings = {
+export default {
   sketchpad: {
-    name: 'Demo',
+    name: 'Floating Cube (Demo)',
     date: '2024',
     author: 'Kedan',
     homepage: 'https://kedan.fr',
@@ -42,7 +42,7 @@ const DemoSettings = {
     /*-------------------------------------------------------------------------/
 			Controls
 		/-------------------------------------------------------------------------*/
-    //pointer: true, // Controls can be true (for defaults) or options
+    //pointer: true, // AbstractControls can be true (for defaults) or options
     pointer: {
       margin: 0,
       enabled: true,
@@ -95,5 +95,3 @@ const DemoSettings = {
     },
   },
 };
-
-export { DemoSettings };

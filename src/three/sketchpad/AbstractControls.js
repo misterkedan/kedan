@@ -8,7 +8,7 @@ import {
   SketchGUI,
 } from 'kedan';
 
-class Controls {
+class AbstractControls {
   init(sketch) {
     this.sketch = sketch;
     this.settings = sketch.settings;
@@ -58,20 +58,17 @@ class Controls {
 
   initProjector(options) {
     this.projector = new PointerProjector(this.sketch, options);
-
     if (!this.pointer) this.initPointer();
   }
 
   initCameraRig(options) {
-    if (this.orbit) return console.error('Camera used by:', this.orbit);
+    if (this.orbit) return console.error('Camera in use:', this.orbit);
+    if (!this.pointer) this.initPointer();
 
     const { camera } = this.sketch;
     const { bounds, speed, intro } = options;
     const lookAt = options.lookAt || this.settings.sketchpad.camera.lookAt;
-
     this.cameraRig = new CameraRig({ camera, lookAt, bounds, speed, intro });
-
-    if (!this.pointer) this.initPointer();
   }
 
   initGUI(options) {
@@ -83,24 +80,13 @@ class Controls {
     this.keyboardShortcuts.debug = debug;
   }
 
-  initClick(onClick) {
-    this.onClick =
-      onClick ||
-      function (event) {
-        console.log('Controls.onClick', event);
-      }.bind(this);
-
+  initClick(onClick = (event) => console.log('Controls.onClick', event)) {
+    this.onClick = onClick;
     this.sketchpad.canvas.addEventListener('click', this.onClick);
-    this.sketchpad.canvas.style.cursor = 'pointer';
   }
 
-  initWheel(onWheel) {
-    this.onWheel =
-      onWheel ||
-      function (event) {
-        console.log('Controls.onWheel:', event);
-      };
-
+  initWheel(onWheel = (event) => console.log('Controls.onWheel', event)) {
+    this.onWheel = onWheel;
     this.sketchpad.canvas.addEventListener('wheel', this.onWheel);
   }
 
@@ -114,7 +100,6 @@ class Controls {
     this.keyboardShortcuts?.dispose();
     this.resizer?.dispose();
     this.gui?.destroy();
-
     this.sketchpad.canvas.removeEventListener('click', this.onClick);
     this.sketchpad.canvas.removeEventListener('wheel', this.onWheel);
     this.onClick = null;
@@ -138,4 +123,4 @@ class Controls {
   }
 }
 
-export { Controls };
+export { AbstractControls };

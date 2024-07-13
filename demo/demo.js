@@ -1,10 +1,9 @@
 import * as KEDAN from 'kedan';
-import { Demo } from './sketch/Demo';
+import floatingCube from './floating-cube/sketch';
 
-const sketch = new Demo();
 const sketchpad = new KEDAN.Sketchpad({
   debug: true,
 });
-sketchpad.open(sketch);
+sketchpad.open(floatingCube);
 
 console.log({ kedan: { ...KEDAN }, sketchpad });

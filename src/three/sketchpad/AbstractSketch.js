@@ -1,9 +1,9 @@
 import { Object3D } from 'three';
 import { BloomPass, Effects, FXAAPass, RadialBlurPass, Stage } from 'kedan';
 
-class Sketch {
-  constructor(controlsClass, settings) {
-    this.controls = new controlsClass();
+class AbstractSketch {
+  constructor({ controls, settings } = {}) {
+    this.controls = controls;
     this.settings = settings;
   }
 
@@ -17,7 +17,6 @@ class Sketch {
 
   initStage() {
     const stage = new Stage(this.config);
-
     this.stage = stage;
     this.scene = stage.scene;
     this.camera = stage.camera;
@@ -141,4 +140,4 @@ class Sketch {
   }
 }
 
-export { Sketch };
+export { AbstractSketch };

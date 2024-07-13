@@ -1,11 +1,11 @@
 import { BoxGeometry, Color, Mesh, MeshBasicMaterial } from 'three';
-import { Sketch } from 'kedan';
-import { DemoControls } from './DemoControls';
-import { DemoSettings } from './DemoSettings';
+import { AbstractSketch } from 'kedan';
+import controls from './controls';
+import settings from './settings';
 
-class Demo extends Sketch {
+class Sketch extends AbstractSketch {
   constructor() {
-    super(DemoControls, DemoSettings);
+    super({ controls, settings });
 
     this.rotationSpeed = -0.001;
   }
@@ -51,4 +51,4 @@ class Demo extends Sketch {
   }
 }
 
-export { Demo };
+export default new Sketch();

@@ -167,10 +167,10 @@ export { FXAAPass } from './three/postprocessing/FXAAPass';
 export { RadialBlurPass } from './three/postprocessing/RadialBlurPass';
 
 // Sketchpad
-export { Controls } from './three/sketchpad/Controls';
+export { AbstractControls } from './three/sketchpad/AbstractControls';
 export { Effects } from './three/sketchpad/Effects';
 export { Overlay } from './three/sketchpad/Overlay';
-export { Sketch } from './three/sketchpad/Sketch';
+export { AbstractSketch } from './three/sketchpad/AbstractSketch';
 export { SketchGUI } from './three/sketchpad/SketchGUI';
 export { Sketchpad } from './three/sketchpad/Sketchpad';
 export { Stage } from './three/sketchpad/Stage';
