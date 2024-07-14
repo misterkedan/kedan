@@ -121,23 +121,6 @@ class AbstractSketch {
   get autoTitle() {
     return this.author ? `${this.name} - ${this.author}` : this.name;
   }
-
-  // Sketchpad
-  get canvas() {
-    return this.sketchpad.canvas;
-  }
-  get container() {
-    return this.sketchpad.container;
-  }
-  get device() {
-    return this.sketchpad.device;
-  }
-  get ticker() {
-    return this.sketchpad.ticker;
-  }
-  get overlay() {
-    return this.sketchpad.overlay;
-  }
 }
 
 export { AbstractSketch };
