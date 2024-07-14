@@ -2,13 +2,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import {
   CameraRig,
   CanvasResizer,
+  Disposable,
   KeyboardShortcuts,
   PointerProjector,
   PointerTracker,
   SketchGUI,
 } from 'kedan';
 
-class AbstractControls {
+class AbstractControls extends Disposable {
   init(sketch) {
     this.sketch = sketch;
     this.settings = sketch.settings;
@@ -95,15 +96,16 @@ class AbstractControls {
 	/-------------------------------------------------------------------------*/
 
   dispose() {
-    this.pointer?.dispose();
-    this.projector?.dispose();
-    this.keyboardShortcuts?.dispose();
-    this.resizer?.dispose();
     this.gui?.destroy();
-    this.sketchpad.canvas.removeEventListener('click', this.onClick);
-    this.sketchpad.canvas.removeEventListener('wheel', this.onWheel);
-    this.onClick = null;
-    this.onWheel = null;
+    if (this.onClick)
+      this.sketchpad.canvas.removeEventListener('click', this.onClick);
+    if (this.onWheel)
+      this.sketchpad.canvas.removeEventListener('wheel', this.onWheel);
+    this.onClick = undefined;
+    this.onWheel = undefined;
+    this.sketch = undefined;
+    this.sketchpad = undefined;
+    super.dispose();
   }
 
   resize(width, height) {

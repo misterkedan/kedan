@@ -70,7 +70,6 @@ class PointerProjector {
 
   dispose() {
     const { projectorCursor, projectorPlane } = this.sketch;
-
     this.sketch.remove({ projectorCursor, projectorPlane });
     [projectorCursor, projectorPlane].forEach((mesh) => {
       mesh.geometry.dispose();

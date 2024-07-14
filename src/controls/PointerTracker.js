@@ -65,8 +65,8 @@ class PointerTracker {
   dispose() {
     this.dispatcher.removeEventListener('touchmove', this.onTouchMove);
     this.dispatcher.removeEventListener('mousemove', this.onMouseMove);
-    this.onMouseMove = null;
-    this.onTouchMove = null;
+    this.onMouseMove = undefined;
+    this.onTouchMove = undefined;
   }
 
   track(clientX, clientY) {

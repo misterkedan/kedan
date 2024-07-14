@@ -28,7 +28,7 @@ class Overlay {
     if (!github && !author && !date) {
       if (this.footer) {
         this.remove(this.footer);
-        this.footer = null;
+        this.footer = undefined;
       }
       return;
     }

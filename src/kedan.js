@@ -16,6 +16,7 @@ export { Random } from './random/Random';
 export { Simplex } from './random/Simplex';
 
 // Utils
+export { Disposable } from './utils/Disposable';
 export { Presentation } from './utils/Presentation';
 export { Ticker } from './utils/Ticker';
 export * as TextUtils from './utils/TextUtils';

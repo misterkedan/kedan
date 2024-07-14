@@ -20,15 +20,15 @@ class Controls extends AbstractControls {
 
   initGUI() {
     super.initGUI();
-    const { gui, sketch } = this;
+    const { gui, pointer, resizer, sketch, sketchpad } = this;
 
     // Size
     const presets = this.resizer.presets.items.map((preset) => preset.name);
     const size = gui.addFolder('SIZE');
-    size.add(this.resizer, 'preset', presets);
-    size.add(this.resizer, 'width', 0, 3840, 1).listen();
-    size.add(this.resizer, 'height', 0, 2160, 1).listen();
-    size.add(this.resizer, 'zoom', this.resizer.zooms.items).listen();
+    size.add(resizer, 'preset', presets);
+    size.add(resizer, 'width', 0, 3840, 1).listen();
+    size.add(resizer, 'height', 0, 2160, 1).listen();
+    size.add(resizer, 'zoom', resizer.zooms.items).listen();
 
     // Background
     gui.addFolder('BACKGROUND');
@@ -51,11 +51,12 @@ class Controls extends AbstractControls {
 
     // Controls
     const controls = gui.addFolder('CONTROLS');
-    controls.add(this.sketchpad.ticker, 'fps', 0, 60, 1);
-    controls.add(this.pointer, 'enabled').name('pointerTracking');
+    controls.add(sketchpad.ticker, 'fps', 0, 60, 1);
+    controls.add(pointer, 'enabled').name('pointerTracking');
     controls.add(this, 'dither');
-    controls.add(this.sketchpad, 'savePNG');
-    controls.add(this.sketchpad.ticker, 'toggle').name('play / pause');
+    controls.add(sketch, 'reset');
+    controls.add(sketchpad, 'savePNG');
+    controls.add(sketchpad.ticker, 'toggle').name('play / pause');
   }
 
   initKeyboard() {
@@ -84,12 +85,6 @@ class Controls extends AbstractControls {
     };
 
     this.sketch.rotationSpeed = computeRotation();
-  }
-
-  dispose() {
-    super.dispose();
-
-    this.swiper.dispose();
   }
 
   /*---------------------------------------------------------------------------/

@@ -1,5 +1,6 @@
 import { WebGLRenderer } from 'three';
 import {
+  Disposable,
   Overlay,
   Ticker,
   getDeviceInfo,
@@ -7,7 +8,7 @@ import {
   saveCanvasAsPNG,
 } from 'kedan';
 
-class Sketchpad {
+class Sketchpad extends Disposable {
   constructor({
     container = 'sketchpad',
     overlay = 'sketchpad-overlay',
@@ -24,6 +25,8 @@ class Sketchpad {
     height,
     stats,
   } = {}) {
+    super();
+
     this.autoStart = autoStart;
     this.autoTitle = autoTitle;
     this.autoFooter = autoFooter;
@@ -68,14 +71,14 @@ class Sketchpad {
 
   dispose() {
     window.removeEventListener('resize', this.onResize);
-    this.onResize = null;
+    this.onResize = undefined;
+    super.dispose();
   }
 
   open(sketch) {
     return new Promise(async (resolve) => {
       await sketch.preload();
-      sketch.initSketchpad(this);
-      sketch.init();
+      sketch.init(this);
       this.sketch = sketch;
 
       if (this.autoTitle) document.title = sketch.autoTitle;

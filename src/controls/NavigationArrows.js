@@ -143,16 +143,16 @@ class NavigationArrows {
   dispose() {
     this.back.removeEventListener('click', this.onBack);
     this.forward.removeEventListener('click', this.onForward);
-    this.onBack = null;
-    this.onForward = null;
+    this.onBack = undefined;
+    this.onForward = undefined;
 
     this.container.removeChild(this.wrapper);
     this.wrapper.removeChild(this.back);
     this.wrapper.removeChild(this.forward);
 
-    this.wrapper = null;
-    this.back = null;
-    this.forward = null;
+    this.wrapper = undefined;
+    this.back = undefined;
+    this.forward = undefined;
   }
 
   disable(back = false, forward = false) {

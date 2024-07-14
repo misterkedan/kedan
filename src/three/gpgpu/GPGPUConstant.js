@@ -1,7 +1,14 @@
 import { ShaderMaterial, Uniform } from 'three';
-import { packFloat, is, logInvalidArgument, GPGPU, GPGPUVariable } from 'kedan';
+import {
+  Disposable,
+  GPGPU,
+  GPGPUVariable,
+  packFloat,
+  is,
+  logInvalidArgument,
+} from 'kedan';
 
-class GPGPUConstant {
+class GPGPUConstant extends Disposable {
   /**
    * Create a float-packed 8bit DataTexture, for values that will never
    * change (ex: starting positions).
@@ -20,6 +27,8 @@ class GPGPUConstant {
     input,
     { name = 'data', prefix = 'GPGPU_', textureSize, uniforms = {} } = {}
   ) {
+    super();
+
     this.name = prefix ? prefix + name : name;
     this.output = new Uniform();
     this._textureSize = textureSize;
@@ -68,15 +77,6 @@ class GPGPUConstant {
     GPGPU.render(shaderMaterial, this.renderTarget);
 
     this.output.value = this.renderTarget.texture;
-  }
-
-  /**
-   * Disposes all ressources used by this instance.
-   */
-  dispose() {
-    this.dataTexture?.dispose?.();
-    this.renderTarget?.dispose?.();
-    this.shaderMaterial?.dispose?.();
   }
 
   /*---------------------------------------------------------------------------/

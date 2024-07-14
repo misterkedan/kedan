@@ -1,5 +1,5 @@
 import GUI from 'lil-gui';
-import { stringToKey } from 'kedan';
+import { logInvalidArgument, stringToKey } from 'kedan';
 
 class SketchGUI extends GUI {
   constructor(sketch, options) {
@@ -16,14 +16,13 @@ class SketchGUI extends GUI {
   get(folder) {
     if (folder instanceof GUI) return folder;
     if (this[folder]) return this[folder];
-    if (folder) return console.error('invalid folder:', folder);
+    if (folder) return logInvalidArgument(folder);
     return this;
   }
 
   addFolder(name, parentFolder) {
     const key = stringToKey(name);
-
-    if (this[key]) return console.error('existing key:', key);
+    if (this[key]) return logNameTaken(name);
 
     const folder = parentFolder
       ? this.get(parentFolder).addFolder(name)
@@ -36,7 +35,6 @@ class SketchGUI extends GUI {
 
   refresh(folder) {
     const target = this.get(folder);
-
     target
       .controllersRecursive()
       .forEach((controller) => controller.updateDisplay());
@@ -44,7 +42,6 @@ class SketchGUI extends GUI {
 
   clear(folder) {
     const target = this.get(folder);
-
     target.controllersRecursive().forEach((controller) => controller.destroy());
   }
 }

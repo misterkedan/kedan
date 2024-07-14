@@ -26,9 +26,9 @@ import {
   UnsignedByteType,
   WebGLRenderTarget,
 } from 'three';
-import { GPGPUConstant, GPGPUVariable, logNameTaken } from 'kedan';
+import { Disposable, GPGPUConstant, GPGPUVariable, logNameTaken } from 'kedan';
 
-class GPGPU {
+class GPGPU extends Disposable {
   /**
    * Creates a GPGPU object to regroup GPGPU variables and constants.
    * @param {Object} options Option object, containing either a count or
@@ -43,6 +43,8 @@ class GPGPU {
    * allow the computation of 64 x 64 = 4094 values.
    */
   constructor({ renderer, count, textureSize = 512 } = {}) {
+    super();
+
     if (renderer) GPGPU.init(renderer);
     this._textureSize = count ? GPGPU.getTextureSize(count) : textureSize;
     this.constants = {};
@@ -206,20 +208,6 @@ class GPGPU {
   bindTo(uniforms) {
     //this.forEach((property) => (uniforms[property.name] = property.output));
     Object.assign(uniforms, this.uniforms);
-  }
-
-  /**
-   * Disposes all ressources used by this instance and its constants and variables.
-   * Textures, ShaderMaterials, WebGLRenderTargets...
-   */
-  dispose() {
-    Object.entries(this).forEach(([key, value]) => {
-      value.dispose?.();
-      this[key] = null;
-    });
-    this.constants = {};
-    this.variables = {};
-    this.uniforms = {};
   }
 
   /**

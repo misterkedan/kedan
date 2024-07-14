@@ -1,18 +1,23 @@
 import { Object3D } from 'three';
-import { BloomPass, Effects, FXAAPass, RadialBlurPass, Stage } from 'kedan';
+import {
+  BloomPass,
+  Disposable,
+  Effects,
+  FXAAPass,
+  RadialBlurPass,
+  Stage,
+  dispose,
+} from 'kedan';
 
-class AbstractSketch {
+class AbstractSketch extends Disposable {
   constructor({ controls, settings } = {}) {
+    super();
     this.controls = controls;
     this.settings = settings;
   }
 
   preload() {
     // Preload files here
-  }
-
-  initSketchpad(sketchpad) {
-    this.sketchpad = sketchpad;
   }
 
   initStage() {
@@ -43,7 +48,8 @@ class AbstractSketch {
       this.effects.add('radialBlur', new RadialBlurPass(radialBlur));
   }
 
-  init() {
+  init(sketchpad = this.sketchpad) {
+    this.sketchpad = sketchpad;
     this.initStage();
     this.initEffects();
     this.initScene();
@@ -68,8 +74,7 @@ class AbstractSketch {
 
     Object.entries(input).forEach(([key, value]) => {
       this.stage.remove(value);
-      value?.dispose?.();
-      delete this[key];
+      this[key] = dispose(value);
     });
   }
 
@@ -78,9 +83,16 @@ class AbstractSketch {
 	/-------------------------------------------------------------------------*/
 
   dispose() {
-    this.stage.dispose();
-    this.effects.dispose();
-    this.controls.dispose();
+    this.sketchpad = null;
+    super.dispose();
+  }
+
+  reset() {
+    const { sketchpad } = this;
+    this.settings.reset();
+    this.dispose();
+    this.init(sketchpad);
+    sketchpad.resize();
   }
 
   resize(width, height, pixelRatio) {

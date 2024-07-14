@@ -79,3 +79,7 @@ export const trimFloat = (float, decimals = 4, method = Math.round) => {
 };
 
 export const clone = (object) => JSON.parse(JSON.stringify(object));
+
+export const dispose = (object) => {
+  Object.values(object).forEach((value) => value?.dispose?.());
+};

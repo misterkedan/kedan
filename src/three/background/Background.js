@@ -1,5 +1,5 @@
 import { Mesh, PlaneGeometry, ShaderMaterial } from 'three';
-import { GLSL_vUv_vertex } from 'kedan';
+import { dispose, GLSL_vUv_vertex } from 'kedan';
 
 class Background extends Mesh {
   constructor(shader) {
@@ -18,8 +18,7 @@ class Background extends Mesh {
   }
 
   dispose() {
-    this.geometry.dispose();
-    this.material.dispose();
+    dispose(this);
   }
 }
 

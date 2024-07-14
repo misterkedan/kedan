@@ -180,20 +180,20 @@ class Swiper extends Presentation {
   dispose() {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
-    this.onKeyDown = null;
-    this.onKeyUp = null;
+    this.onKeyDown = undefined;
+    this.onKeyUp = undefined;
 
     this.dispatcher.addEventListener('wheel', this.onWheel);
-    this.onWheel = null;
+    this.onWheel = undefined;
 
     this.dispatcher.removeEventListener('mousedown', this.onMouseDown);
     this.dispatcher.removeEventListener('mouseup', this.onMouseUp);
     this.dispatcher.removeEventListener('touchstart', this.onTouchStart);
     this.dispatcher.removeEventListener('touchend', this.onTouchEnd);
-    this.onMouseDown = null;
-    this.onMouseUp = null;
-    this.onTouchStart = null;
-    this.onTouchEnd = null;
+    this.onMouseDown = undefined;
+    this.onMouseUp = undefined;
+    this.onTouchStart = undefined;
+    this.onTouchEnd = undefined;
 
     this.arrows.dispose();
   }

@@ -1,8 +1,11 @@
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { Disposable } from 'kedan';
 
-class Effects {
+class Effects extends Disposable {
   constructor({ renderer, scene, camera, renderToScreen = true } = {}) {
+    super();
+
     this.composer = new EffectComposer(renderer);
     this.composer.renderToScreen = renderToScreen;
 
@@ -40,10 +43,10 @@ class Effects {
       pass.dispose?.();
     });
 
-    Object.values(this).forEach((property) => property.dispose?.());
-
     this.composer.renderTarget1.dispose();
     this.composer.renderTarget2.dispose();
+
+    super.dispose();
   }
 
   resize(width, height, pixelRatio) {

@@ -1,5 +1,6 @@
 import { ShaderMaterial, Uniform } from 'three';
 import {
+  Disposable,
   GPGPU,
   GLSL_packFloat,
   GLSL_unpackFloat,
@@ -8,7 +9,7 @@ import {
   is,
 } from 'kedan';
 
-class GPGPUVariable {
+class GPGPUVariable extends Disposable {
   /**
    * Creates a variable for a set of data (ex: position x of a set of vertices).
    * This variable will be encoded into an 8 bit texture using float packing,
@@ -48,6 +49,8 @@ class GPGPUVariable {
     shader = GPGPUVariable.fragmentShader,
     init,
   } = {}) {
+    super();
+
     if (!GPGPU.renderer)
       throw new Error('Use GPGPU.init(renderer) before instancing.');
 
@@ -138,17 +141,6 @@ class GPGPUVariable {
     GPGPU.setResolution(input, this.textureSize);
     this.compute(input);
     if (disposeAfter) input.dispose();
-  }
-
-  /**
-   * This needs to be called if the variable won't be used anymore,
-   * to avoid memory leaks.
-   */
-  dispose() {
-    this.rt1.dispose();
-    this.rt2.dispose();
-    this.dataTexture.dispose();
-    this.material.dispose();
   }
 
   /*-------------------------------------------------------------------------/

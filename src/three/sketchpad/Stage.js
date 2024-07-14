@@ -1,18 +1,19 @@
 import { Camera, Color, Fog, PerspectiveCamera, Scene } from 'three';
 import {
+  Disposable,
   LinearGradientBackground,
   RadialGradientBackground,
   SimplexGradientBackground,
   getVector3,
 } from 'kedan';
 
-class Stage {
+class Stage extends Disposable {
   constructor({ camera, background, fog } = {}) {
-    this.scene = new Scene();
+    super();
 
+    this.scene = new Scene();
     this.initCamera(camera);
     this.initBackground(background);
-
     if (fog) this.initFog(fog);
   }
 
@@ -69,15 +70,13 @@ class Stage {
 	/---------------------------------------------------------------------------*/
 
   dispose() {
-    this.background?.dispose?.();
-
     this.scene.children.forEach((child) => {
       child.dispose?.();
       child.geometry?.dispose();
       child.material?.dispose();
     });
-
     this.scene.clear();
+    super.dispose();
   }
 
   resize(width, height) {

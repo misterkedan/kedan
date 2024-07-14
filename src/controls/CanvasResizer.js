@@ -115,7 +115,7 @@ class CanvasResizer {
 
   dispose() {
     window.removeEventListener('keyup', this.onKeyUp);
-    this.onKeyUp = null;
+    this.onKeyUp = undefined;
   }
 
   /*---------------------------------------------------------------------------/
