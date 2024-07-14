@@ -77,3 +77,5 @@ export const trimFloat = (float, decimals = 4, method = Math.round) => {
   const n = float * p * (1 + Number.EPSILON);
   return method(n) / p;
 };
+
+export const clone = (object) => JSON.parse(JSON.stringify(object));

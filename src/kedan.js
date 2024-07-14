@@ -1,6 +1,5 @@
 // Controls
 export { CanvasResizer } from './controls/CanvasResizer';
-export { GUI } from './controls/GUI';
 export { KeyboardShortcuts } from './controls/KeyboardShortcuts';
 export { NavigationArrows } from './controls/NavigationArrows';
 export { PointerTracker } from './controls/PointerTracker';
@@ -168,9 +167,10 @@ export { RadialBlurPass } from './three/postprocessing/RadialBlurPass';
 
 // Sketchpad
 export { AbstractControls } from './three/sketchpad/AbstractControls';
+export { Settings } from './three/sketchpad/Settings';
+export { AbstractSketch } from './three/sketchpad/AbstractSketch';
 export { Effects } from './three/sketchpad/Effects';
 export { Overlay } from './three/sketchpad/Overlay';
-export { AbstractSketch } from './three/sketchpad/AbstractSketch';
 export { SketchGUI } from './three/sketchpad/SketchGUI';
 export { Sketchpad } from './three/sketchpad/Sketchpad';
 export { Stage } from './three/sketchpad/Stage';

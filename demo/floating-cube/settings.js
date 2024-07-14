@@ -1,4 +1,6 @@
-export default {
+import { Settings } from 'kedan';
+
+export default new Settings({
   sketchpad: {
     name: 'Floating Cube (Demo)',
     date: '2024',
@@ -6,8 +8,8 @@ export default {
     homepage: 'https://kedan.fr',
     github: 'https://github.com/misterkedan/kedan',
     /*-------------------------------------------------------------------------/
-			Stage
-		/-------------------------------------------------------------------------*/
+      Stage
+    /-------------------------------------------------------------------------*/
     background: '#ff7700', // Solid color
     //background: {
     //	type: 'linear',
@@ -40,8 +42,8 @@ export default {
       lookAt: { x: 0, y: 0, z: 0 },
     },
     /*-------------------------------------------------------------------------/
-			Controls
-		/-------------------------------------------------------------------------*/
+      Controls
+    /-------------------------------------------------------------------------*/
     //pointer: true, // AbstractControls can be true (for defaults) or options
     pointer: {
       margin: 0,
@@ -76,8 +78,8 @@ export default {
     //wheel: true, // Adds a wheel event listener on canvas
     //click: true, // Adds a click event listener on canvas
     /*-------------------------------------------------------------------------/
-			Effects
-		/-------------------------------------------------------------------------*/
+      Effects
+    /-------------------------------------------------------------------------*/
     bloom: {
       strength: 0.9,
       radius: 0.3,
@@ -93,5 +95,10 @@ export default {
     fxaa: {
       enabled: true,
     },
+    /*-------------------------------------------------------------------------/
+      Settings
+    /-------------------------------------------------------------------------*/
+    //autoLoad: true,
+    //autoSave: true,
   },
-};
+});
