@@ -8,9 +8,15 @@ export default new Settings({
     homepage: 'https://kedan.fr',
     github: 'https://github.com/misterkedan/kedan',
     /*-------------------------------------------------------------------------/
+      Settings
+    /-------------------------------------------------------------------------*/
+    id: 'kedan-demo', // localStorage identifier, defaults to author-name
+    autoLoad: true,
+    //autoSave: true,
+    /*-------------------------------------------------------------------------/
       Stage
     /-------------------------------------------------------------------------*/
-    background: '#ff7700', // Solid color
+    background: '#ff7700', // solid color
     //background: {
     //	type: 'linear',
     //	color1: '#0055aa',
@@ -35,7 +41,7 @@ export default new Settings({
     //	//dither: false,
     //},
     camera: {
-      // Can use those shorthands for every xyz option:
+      // shorthands for xyz options:
       // start: [ 1, 2, 3 ], 	// shorthand for { x: 1, y: 2, z: 3 }
       // start: 3, 			      // shorthand for { x: 3, y: 3, z: 3 }
       start: { x: 2, y: 2, z: 2 },
@@ -56,7 +62,7 @@ export default new Settings({
       lookAt: { x: 0, y: 0, z: 0 },
       intro: { x: 1, y: 1, z: 1 },
     },
-    // 	Can enable OrbitControls with
+    // 	enable OrbitControls with
     //	orbit: {
     //		autoRotate: true,
     //		autoRotateSpeed: 10,
@@ -75,8 +81,8 @@ export default new Settings({
     gui: true,
     keyboard: true,
     resizer: true,
-    //wheel: true, // Adds a wheel event listener on canvas
-    //click: true, // Adds a click event listener on canvas
+    //wheel: true, // adds a wheel event listener on canvas
+    //click: true, // adds a click event listener on canvas
     /*-------------------------------------------------------------------------/
       Effects
     /-------------------------------------------------------------------------*/
@@ -95,10 +101,5 @@ export default new Settings({
     fxaa: {
       enabled: true,
     },
-    /*-------------------------------------------------------------------------/
-      Settings
-    /-------------------------------------------------------------------------*/
-    //autoLoad: true,
-    //autoSave: true,
   },
 });

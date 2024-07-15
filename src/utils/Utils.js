@@ -54,7 +54,6 @@ export const stringToKey = (string) => {
   const notAlphanumeric = /[^\w]+/g;
   const toCamelCase = (initial, i) =>
     i === 0 ? initial.toLowerCase() : initial.toUpperCase();
-
   return delocalize(string)
     .toLowerCase()
     .replace(notLetterInitials, '')

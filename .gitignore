@@ -1,5 +1,7 @@
+*.code-workspace
+.VS*
 .DS_Store
 Thumbs.db
-node_modules/*
 _/*
-*.code-workspace
+node_modules/*
+dist/demo.js

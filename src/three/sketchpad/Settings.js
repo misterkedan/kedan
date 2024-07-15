@@ -1,7 +1,14 @@
-import { clone, logNameTaken } from 'kedan';
+import { clone, logNameTaken, stringToKey } from 'kedan';
 
 class Settings {
   constructor(settings) {
+    this.id =
+      settings?.sketchpad?.id ||
+      (function getAutoId() {
+        const author = settings?.sketchpad?.author || 'sketch';
+        const name = settings?.sketchpad?.name || 'untitled';
+        return `${stringToKey(author)}-${stringToKey(name)}`;
+      })();
     this.defaults = clone(settings);
     Object.entries(settings).forEach(([key, value]) => {
       if (this[key] !== undefined) return logNameTaken(key);
@@ -22,12 +29,15 @@ class Settings {
 
   save() {
     const settings = clone(this);
+    delete settings.id;
     delete settings.defaults;
-    localStorage.setItem('settings', JSON.stringify(settings));
+    localStorage.setItem(this.id, JSON.stringify(settings));
   }
 
   load() {
-    const settings = JSON.parse(localStorage.getItem('settings'));
+    const settings = JSON.parse(localStorage.getItem(this.id));
+    if (!settings || !settings?.sketchpad?.name !== this.sketchpad?.name)
+      return;
     Object.assign(this, settings);
   }
 }
