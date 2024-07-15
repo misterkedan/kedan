@@ -21,8 +21,8 @@ class Overlay {
     this.domElement.removeChild(domElement);
   }
 
-  setAutoFooter(sketch, separator = ' - ') {
-    const { date, author, homepage, github } = sketch.config;
+  setAutoFooter(config, separator = ' - ') {
+    const { date, author, homepage, github } = config;
 
     // Delete
     if (!github && !author && !date) {

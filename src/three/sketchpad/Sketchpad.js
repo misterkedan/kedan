@@ -81,8 +81,8 @@ class Sketchpad extends Disposable {
       sketch.init(this);
       this.sketch = sketch;
 
-      if (this.autoTitle) document.title = sketch.autoTitle;
-      if (this.autoFooter) this.overlay?.setAutoFooter(sketch);
+      if (this.autoTitle) document.title = this.getAutoTitle();
+      if (this.autoFooter) this.overlay?.setAutoFooter(sketch.settings.config);
       if (this.autoStart) this.start();
 
       resolve();
@@ -125,6 +125,13 @@ class Sketchpad extends Disposable {
 
     this.savePNGRequested = true;
     if (!this.ticker.playing) this.ticker.tick();
+  }
+
+  getAutoTitle(separator = ' - ') {
+    if (typeof this.autoTitle === 'string') return this.autoTitle;
+    if (!this.sketch) return 'Sketchpad';
+    const { author, name } = this.sketch.settings?.config;
+    return author ? `${name}${separator}${author}` : name || 'Untitled Sketch';
   }
 }
 

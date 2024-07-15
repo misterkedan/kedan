@@ -25,7 +25,7 @@ class AbstractControls extends Disposable {
       keyboard,
       click,
       wheel,
-    } = sketch.config;
+    } = sketch.settings.config;
     const desktop = !sketch.sketchpad.device.phone;
 
     if (resizer) this.initResizer();
@@ -68,7 +68,7 @@ class AbstractControls extends Disposable {
 
     const { camera } = this.sketch;
     const { bounds, speed, intro } = options;
-    const lookAt = options.lookAt || this.settings.sketchpad.camera.lookAt;
+    const lookAt = options.lookAt || this.settings.config.camera?.lookAt;
     this.cameraRig = new CameraRig({ camera, lookAt, bounds, speed, intro });
   }
 

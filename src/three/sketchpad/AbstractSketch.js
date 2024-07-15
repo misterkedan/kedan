@@ -21,7 +21,7 @@ class AbstractSketch extends Disposable {
   }
 
   initStage() {
-    const stage = new Stage(this.config);
+    const stage = new Stage(this.settings.config);
     this.stage = stage;
     this.scene = stage.scene;
     this.camera = stage.camera;
@@ -39,7 +39,7 @@ class AbstractSketch extends Disposable {
   initEffects() {
     const { camera, scene } = this.stage;
     const { renderer } = this.sketchpad;
-    const { renderToScreen, bloom, fxaa, radialBlur } = this.config;
+    const { renderToScreen, bloom, fxaa, radialBlur } = this.settings.config;
     this.effects = new Effects({ camera, scene, renderer, renderToScreen });
 
     if (fxaa) this.effects.add('fxaa', new FXAAPass(fxaa));
@@ -113,25 +113,17 @@ class AbstractSketch extends Disposable {
   get aspect() {
     return this.camera.aspect;
   }
+
   get output() {
     return this.effects.composer.readBuffer.texture;
   }
+
   get sfx() {
     return this.effects.passes;
   }
 
-  // Config
-  get config() {
-    return this.settings.sketchpad;
-  }
-  get author() {
-    return this.config.author;
-  }
   get name() {
-    return this.config.name || 'Untitled';
-  }
-  get autoTitle() {
-    return this.author ? `${this.name} - ${this.author}` : this.name;
+    return this.settings.config.name;
   }
 }
 
