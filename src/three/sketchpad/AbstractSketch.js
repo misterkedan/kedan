@@ -36,11 +36,13 @@ class AbstractSketch extends Disposable {
     this.controls.init(this);
   }
 
-  initEffects() {
+  initEffects(auto = true) {
     const { camera, scene } = this.stage;
     const { renderer } = this.sketchpad;
     const { renderToScreen, bloom, fxaa, radialBlur } = this.settings.config;
     this.effects = new Effects({ camera, scene, renderer, renderToScreen });
+
+    if (!auto) return;
 
     if (fxaa) this.effects.add('fxaa', new FXAAPass(fxaa));
     if (bloom) this.effects.add('bloom', new BloomPass(bloom));
