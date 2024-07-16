@@ -78,6 +78,7 @@ import GLSL_simplex4D from './glsl/random/simplex4D.glsl';
 import GLSL_vUv_vertex from './glsl/shaders/basicVaryingUV.vertex.glsl';
 
 // Transform
+import GLSL_rotate from './glsl/transform/rotate.glsl';
 import GLSL_rotateX from './glsl/transform/rotateX.glsl';
 import GLSL_rotateY from './glsl/transform/rotateY.glsl';
 import GLSL_rotateZ from './glsl/transform/rotateZ.glsl';
@@ -129,6 +130,7 @@ export {
   GLSL_simplex3D,
   GLSL_simplex4D,
   GLSL_vUv_vertex,
+  GLSL_rotate,
   GLSL_rotateX,
   GLSL_rotateY,
   GLSL_rotateZ,
