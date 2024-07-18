@@ -1,18 +1,20 @@
 import { Settings } from 'kedan';
 
 export default new Settings({
-  id: 'kedan-demo', // localStorage identifier, defaults to author-name
+  /*---------------------------------------------------------------------------/
+    Infos
+  /---------------------------------------------------------------------------*/
+  id: 'kedan-demo', // localStorage identifier
   name: 'Floating Cube (Demo)',
   date: '2024',
   author: 'Kedan',
   homepage: 'https://kedan.fr',
   github: 'https://github.com/misterkedan/kedan',
-  /*-------------------------------------------------------------------------/
-      Setup
-  /-------------------------------------------------------------------------*/
-  autoLoad: true,
-  //autoSave: true,
-  background: '#ff7700', // solid color
+
+  /*---------------------------------------------------------------------------/
+    Stage
+  /---------------------------------------------------------------------------*/
+  background: '#ff7700',
   //background: {
   //	type: 'linear',
   //	color1: '#0055aa',
@@ -37,16 +39,16 @@ export default new Settings({
   //	//dither: false,
   //},
   camera: {
-    // shorthands for xyz options:
-    // start: [ 1, 2, 3 ], 	// shorthand for { x: 1, y: 2, z: 3 }
-    // start: 3, 			      // shorthand for { x: 3, y: 3, z: 3 }
     start: { x: 2, y: 2, z: 2 },
     lookAt: { x: 0, y: 0, z: 0 },
   },
-  /*-------------------------------------------------------------------------/
-      Controls
-    /-------------------------------------------------------------------------*/
-  //pointer: true, // controls can be true (for defaults) or options
+
+  /*---------------------------------------------------------------------------/
+    Controls
+    (controls with options can be either true (for default options) or an 
+    options object)
+  /---------------------------------------------------------------------------*/
+  //pointer: true,
   pointer: {
     margin: 0,
     enabled: true,
@@ -58,10 +60,10 @@ export default new Settings({
     lookAt: { x: 0, y: 0, z: 0 },
     intro: { x: 1, y: 1, z: 1 },
   },
-  //	orbit: {
-  //		autoRotate: true,
-  //		autoRotateSpeed: 10,
-  //	},
+  //orbit: {
+  //  autoRotate: true,
+  //  autoRotateSpeed: 10,
+  //},
   projector: {
     width: 100,
     height: 100,
@@ -76,11 +78,12 @@ export default new Settings({
   gui: true,
   keyboard: true,
   resizer: true,
-  //wheel: true, // adds a wheel event listener on canvas
-  //click: true, // adds a click event listener on canvas
-  /*-------------------------------------------------------------------------/
-      Effects
-    /-------------------------------------------------------------------------*/
+  //wheel: true,
+  //click: true,
+
+  /*---------------------------------------------------------------------------/
+    Effects
+  /---------------------------------------------------------------------------*/
   bloom: {
     strength: 0.9,
     radius: 0.3,
@@ -96,4 +99,11 @@ export default new Settings({
   fxaa: {
     enabled: true,
   },
+  //output: true,
+
+  /*---------------------------------------------------------------------------/
+    Settings
+  /---------------------------------------------------------------------------*/
+  autoLoad: true,
+  //autoSave: true,
 });

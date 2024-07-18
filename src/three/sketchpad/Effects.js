@@ -1,16 +1,12 @@
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { Disposable } from 'kedan';
+import { Disposable, dispose } from 'kedan';
 
 class Effects extends Disposable {
-  constructor({ renderer, scene, camera, renderToScreen = true } = {}) {
+  constructor({ renderer, renderToScreen = true } = {}) {
     super();
-
     this.composer = new EffectComposer(renderer);
     this.composer.renderToScreen = renderToScreen;
-
     this.passes = {};
-    this.add('render', new RenderPass(scene, camera));
   }
 
   /*-------------------------------------------------------------------------/
@@ -24,11 +20,10 @@ class Effects extends Disposable {
 
   remove(name) {
     const pass = this.passes[name];
-
     if (!pass) return;
-
     this.composer.removePass(pass);
-    pass.dispose?.();
+    if (pass.dispose) pass.dispose();
+    else dispose(pass);
     delete this.passes[name];
   }
 
@@ -37,15 +32,10 @@ class Effects extends Disposable {
 	/-------------------------------------------------------------------------*/
 
   dispose() {
-    Object.values(this.passes).forEach((pass) => {
-      pass.fsQuad?.dispose();
-      pass.material?.dispose();
-      pass.dispose?.();
-    });
-
-    this.composer.renderTarget1.dispose();
-    this.composer.renderTarget2.dispose();
-
+    Object.values(this.passes).forEach((pass) => dispose(pass));
+    dispose(this.passes);
+    dispose(this.composer);
+    this.composer.dispose();
     super.dispose();
   }
 
@@ -59,6 +49,14 @@ class Effects extends Disposable {
 
   tick() {
     this.composer.render();
+  }
+
+  /*---------------------------------------------------------------------------/
+    Getters & Setters
+  /---------------------------------------------------------------------------*/
+
+  get length() {
+    return this.composer.passes.length;
   }
 }
 

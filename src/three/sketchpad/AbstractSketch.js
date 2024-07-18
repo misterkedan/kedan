@@ -1,4 +1,6 @@
 import { Object3D } from 'three';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import {
   BloomPass,
   Disposable,
@@ -39,15 +41,18 @@ class AbstractSketch extends Disposable {
   initEffects(auto = true) {
     const { camera, scene } = this.stage;
     const { renderer } = this.sketchpad;
-    const { renderToScreen, bloom, fxaa, radialBlur } = this.settings.config;
+    const { renderToScreen, bloom, fxaa, radialBlur, output } =
+      this.settings.config;
     this.effects = new Effects({ camera, scene, renderer, renderToScreen });
 
     if (!auto) return;
 
+    this.effects.add('render', new RenderPass(scene, camera));
     if (fxaa) this.effects.add('fxaa', new FXAAPass(fxaa));
     if (bloom) this.effects.add('bloom', new BloomPass(bloom));
     if (radialBlur)
       this.effects.add('radialBlur', new RadialBlurPass(radialBlur));
+    if (output) this.effects.add('output', new OutputPass());
   }
 
   init(sketchpad = this.sketchpad) {
@@ -83,11 +88,6 @@ class AbstractSketch extends Disposable {
   /*-------------------------------------------------------------------------/
 		Update
 	/-------------------------------------------------------------------------*/
-
-  dispose() {
-    this.sketchpad = null;
-    super.dispose();
-  }
 
   reset() {
     const { sketchpad } = this;

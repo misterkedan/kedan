@@ -43,6 +43,7 @@ class Settings {
    * @param {Object} config.bloom Options object for a BloomPass
    * @param {Object} config.radialBlur Options object for a RadialBlurPass
    * @param {Object} config.fxaa Options object for a FXAAPass
+   * @param {Boolean} config.output Whether to add an OutputPass
    * @param {Object} sketch Sketch settings unrelated to the sketchpad
    */
   constructor(
@@ -74,6 +75,7 @@ class Settings {
       bloom,
       radialBlur,
       fxaa,
+      output,
     } = {},
     sketch = {}
   ) {
