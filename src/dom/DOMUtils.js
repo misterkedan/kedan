@@ -37,11 +37,11 @@ export const disable = (...elements) =>
 /-----------------------------------------------------------------------------*/
 
 export const elementsArrayFrom = (inputs) => {
-  if (!Array.isArray(inputs)) inputs = [inputs];
+  if (!is.array(inputs)) inputs = [inputs];
 
   return inputs.reduce((result, input) => {
     if (input instanceof HTMLElement) result.push(input);
-    else if (typeof input === 'string') {
+    else if (is.string(input)) {
       const elements = Array.from(document.querySelectorAll(input));
       elements.forEach((element) => result.push(element));
     }

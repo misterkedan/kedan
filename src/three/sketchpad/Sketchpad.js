@@ -5,6 +5,7 @@ import {
   Ticker,
   getDeviceInfo,
   getElement,
+  is,
   saveCanvasAsPNG,
 } from 'kedan';
 
@@ -92,7 +93,10 @@ class Sketchpad extends Disposable {
       sketch.init(this);
       this.sketch = sketch;
       if (this.autoTitle) document.title = this.getAutoTitle();
-      if (this.autoFooter) this.overlay?.setAutoFooter(sketch.settings.config);
+      if (this.autoFooter) {
+        if (is.string(this.autoFooter)) this.overlay.setFooter(this.autoFooter);
+        else this.overlay?.setAutoFooter(sketch.settings.config);
+      }
       if (this.autoStart) this.start();
       resolve();
     });
@@ -131,7 +135,7 @@ class Sketchpad extends Disposable {
   }
 
   getAutoTitle(separator = ' - ') {
-    if (typeof this.autoTitle === 'string') return this.autoTitle;
+    if (is.string(this.autoTitle)) return this.autoTitle;
     if (!this.sketch) return 'Sketchpad';
     const { author, name } = this.sketch.settings?.config;
     return author ? `${name}${separator}${author}` : name || 'Untitled Sketch';

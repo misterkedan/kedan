@@ -6,6 +6,10 @@ class Overlay {
     this.domElement = domElement;
     this.visibility = new VisibilityToggler(this.domElement);
 
+    this.footer = document.createElement('footer');
+    this.footer.classList.add('sketchpad-footer');
+    this.add(this.footer);
+
     if (stats) {
       this.stats = new Stats();
       this.stats.domElement.classList.add('sketchpad-stats');
@@ -21,26 +25,14 @@ class Overlay {
     this.domElement.removeChild(domElement);
   }
 
+  clearFooter() {
+    this.footer.innerHTML = '';
+  }
+
   setAutoFooter(config, separator = ' - ') {
     const { date, author, homepage, github } = config;
+    this.clearFooter();
 
-    // Delete
-    if (!github && !author && !date) {
-      if (this.footer) {
-        this.remove(this.footer);
-        this.footer = undefined;
-      }
-      return;
-    }
-
-    // Create
-    if (!this.footer) {
-      this.footer = document.createElement('footer');
-      this.footer.classList.add('sketchpad-footer');
-      this.add(this.footer);
-    }
-
-    // Update
     const footerHTML = [];
     if (author)
       footerHTML.push(
@@ -52,6 +44,11 @@ class Overlay {
       footerHTML.push(`<a class="sketchpad-link" href="${github}">Github</a>`);
     if (date) footerHTML.push(date);
     this.footer.innerHTML = footerHTML.join(separator);
+  }
+
+  setFooter(text) {
+    this.clearFooter();
+    this.footer.innerText = text;
   }
 
   tick() {
