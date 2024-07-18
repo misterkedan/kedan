@@ -92,16 +92,19 @@ export const getVector = (input = 0, input2, input3, input4) => {
 
   if (is.array(input)) input = arrayToXYZW(input);
   else if (is.number(input) && !is.number(input2)) input = numberToXYZW(input);
-  else if (!input.w) {
-    const isVector =
-      input instanceof Vector2 ||
-      input instanceof Vector3 ||
-      input instanceof Vector4;
-    if (!isVector) {
-      const remainingKeys = Object.keys(input).filter(
-        (key) => !'xyz'.includes(key)
-      );
-      if (remainingKeys.length) input.w = input[remainingKeys[0]];
+  else {
+    input = { ...input };
+    if (!input.w) {
+      const isVector =
+        input instanceof Vector2 ||
+        input instanceof Vector3 ||
+        input instanceof Vector4;
+      if (!isVector) {
+        const remainingKeys = Object.keys(input).filter(
+          (key) => !'xyz'.includes(key)
+        );
+        if (remainingKeys.length) input.w = input[remainingKeys[0]];
+      }
     }
   }
 
@@ -134,6 +137,7 @@ export const getColor = (input = 0, input2, input3) => {
   if (input2 && input3) return new Color(input, input2, input3);
   if (input.color) return getColor(input.color);
   if (input.r || input.g || input.b) {
+    input = { ...input };
     input.r = input.r || 0;
     input.g = input.g || 0;
     input.b = input.b || 0;
