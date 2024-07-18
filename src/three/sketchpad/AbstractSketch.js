@@ -1,6 +1,7 @@
 import { Object3D } from 'three';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass';
 import {
   BloomPass,
   Disposable,
@@ -41,7 +42,7 @@ class AbstractSketch extends Disposable {
   initEffects(auto = true) {
     const { camera, scene } = this.stage;
     const { renderer } = this.sketchpad;
-    const { renderToScreen, bloom, fxaa, radialBlur, output } =
+    const { renderToScreen, fxaa, ssao, bloom, radialBlur, output } =
       this.settings.config;
     this.effects = new Effects({ camera, scene, renderer, renderToScreen });
 
@@ -49,6 +50,11 @@ class AbstractSketch extends Disposable {
 
     this.effects.add('render', new RenderPass(scene, camera));
     if (fxaa) this.effects.add('fxaa', new FXAAPass(fxaa));
+    if (ssao) {
+      const ssaoPass = new SSAOPass(scene, camera);
+      Object.assign(ssaoPass, ssao);
+      this.effects.add('ssao', ssaoPass);
+    }
     if (bloom) this.effects.add('bloom', new BloomPass(bloom));
     if (radialBlur)
       this.effects.add('radialBlur', new RadialBlurPass(radialBlur));
@@ -69,7 +75,6 @@ class AbstractSketch extends Disposable {
 
   add(input) {
     if (input instanceof Object3D) return this.stage.add(input);
-
     Object.entries(input).forEach(([key, value]) => {
       this[key] = value;
       this.stage.add(value);
@@ -78,7 +83,6 @@ class AbstractSketch extends Disposable {
 
   remove(input) {
     if (input instanceof Object3D) return this.stage.remove(input);
-
     Object.entries(input).forEach(([key, value]) => {
       this.stage.remove(value);
       this[key] = dispose(value);

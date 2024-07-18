@@ -36,18 +36,32 @@ class Controls extends AbstractControls {
     // SFX
     const sfx = gui.addFolder('POST-PROCESSING');
 
-    const fxaa = gui.addFolder('FXAA', sfx);
-    fxaa.add(sketch.sfx.fxaa, 'enabled');
+    if (sketch.sfx.fxaa) {
+      const fxaa = gui.addFolder('FXAA', sfx);
+      fxaa.add(sketch.sfx.fxaa, 'enabled');
+    }
 
-    const bloom = gui.addFolder('BLOOM', sfx);
-    bloom.add(sketch.sfx.bloom, 'strength', 0, 1);
-    bloom.add(sketch.sfx.bloom, 'radius', 0, 1);
-    bloom.add(sketch.sfx.bloom, 'threshold', 0, 1).listen();
-    bloom.add(sketch.sfx.bloom, 'enabled');
+    if (sketch.sfx.ssao) {
+      const ssao = gui.addFolder('SSAO', sfx);
+      ssao.add(sketch.sfx.ssao, 'kernelRadius', 0, 32).step(1);
+      ssao.add(sketch.sfx.ssao, 'minDistance', 0.001, 0.02);
+      ssao.add(sketch.sfx.ssao, 'maxDistance', 0.01, 0.3);
+      ssao.add(sketch.sfx.ssao, 'enabled');
+    }
 
-    const radialBlur = gui.addFolder('RADIAL BLUR', sfx);
-    radialBlur.add(sketch.sfx.radialBlur, 'strength', 0, 1);
-    radialBlur.add(sketch.sfx.radialBlur, 'enabled');
+    if (sketch.sfx.bloom) {
+      const bloom = gui.addFolder('BLOOM', sfx);
+      bloom.add(sketch.sfx.bloom, 'strength', 0, 1);
+      bloom.add(sketch.sfx.bloom, 'radius', 0, 1);
+      bloom.add(sketch.sfx.bloom, 'threshold', 0, 1).listen();
+      bloom.add(sketch.sfx.bloom, 'enabled');
+    }
+
+    if (sketch.sfx.radialBlur) {
+      const radialBlur = gui.addFolder('RADIAL BLUR', sfx);
+      radialBlur.add(sketch.sfx.radialBlur, 'strength', 0, 1);
+      radialBlur.add(sketch.sfx.radialBlur, 'enabled');
+    }
 
     // Controls
     const controls = gui.addFolder('CONTROLS');

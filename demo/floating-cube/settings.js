@@ -4,6 +4,7 @@ export default new Settings({
   /*---------------------------------------------------------------------------/
     Infos
   /---------------------------------------------------------------------------*/
+
   id: 'kedan-demo', // localStorage identifier
   name: 'Floating Cube (Demo)',
   date: '2024',
@@ -14,6 +15,7 @@ export default new Settings({
   /*---------------------------------------------------------------------------/
     Stage
   /---------------------------------------------------------------------------*/
+
   background: '#ff7700',
   //background: {
   //	type: 'linear',
@@ -48,6 +50,7 @@ export default new Settings({
     (controls with options can be either true (for default options) or an 
     options object)
   /---------------------------------------------------------------------------*/
+
   //pointer: true,
   pointer: {
     margin: 0,
@@ -84,6 +87,14 @@ export default new Settings({
   /*---------------------------------------------------------------------------/
     Effects
   /---------------------------------------------------------------------------*/
+
+  //fxaa: true,
+  //ssao: {
+  //  kernelRadius: 8,
+  //  minDistance: 0.005,
+  //  maxDistance: 0.1,
+  //  enabled: true,
+  //},
   bloom: {
     strength: 0.9,
     radius: 0.3,
@@ -91,19 +102,17 @@ export default new Settings({
     dither: true,
     //enabled: false,
   },
-  radialBlur: {
-    strength: 0.4,
-    dither: true,
-    enabled: false,
-  },
-  fxaa: {
-    enabled: true,
-  },
+  //radialBlur: {
+  //  strength: 0.4,
+  //  dither: true,
+  //  enabled: true,
+  //},
   //output: true,
 
   /*---------------------------------------------------------------------------/
     Settings
   /---------------------------------------------------------------------------*/
+
   autoLoad: true,
   //autoSave: true,
 });

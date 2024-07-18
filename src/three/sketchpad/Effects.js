@@ -41,7 +41,6 @@ class Effects extends Disposable {
 
   resize(width, height, pixelRatio) {
     this.composer.setSize(width, height);
-
     Object.values(this.passes).forEach((pass) =>
       pass.setSize?.(width, height, pixelRatio)
     );

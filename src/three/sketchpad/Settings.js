@@ -60,7 +60,7 @@ class Settings {
       autoLoad,
       autoSave,
       background,
-      camera = { start: undefined, lookAt: undefined },
+      camera = { start, lookAt },
       // Controls
       pointer,
       cameraRig,
@@ -72,9 +72,10 @@ class Settings {
       wheel,
       click,
       // Effects
+      fxaa,
+      ssao,
       bloom,
       radialBlur,
-      fxaa,
       output,
     } = {},
     sketch = {}
