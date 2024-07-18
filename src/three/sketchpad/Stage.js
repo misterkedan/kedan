@@ -4,7 +4,7 @@ import {
   LinearGradientBackground,
   RadialGradientBackground,
   SimplexGradientBackground,
-  getVector3,
+  getVector,
 } from 'kedan';
 
 class Stage extends Disposable {
@@ -23,8 +23,8 @@ class Stage extends Disposable {
     const { fov, aspect, near, far } = input;
     this.camera = new PerspectiveCamera(fov, aspect, near, far);
 
-    this.camera.position.copy(getVector3(input.start, 2));
-    this.camera.lookAt(getVector3(input.lookAt));
+    this.camera.position.copy(getVector(input.start, 2));
+    this.camera.lookAt(getVector(input.lookAt));
   }
 
   initBackground(options) {

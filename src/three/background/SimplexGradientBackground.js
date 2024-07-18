@@ -1,10 +1,5 @@
 import { Color, Uniform, Vector2 } from 'three';
-import {
-  Background,
-  getVector3,
-  GLSL_bayerDither,
-  GLSL_simplex3D,
-} from 'kedan';
+import { Background, getVector, GLSL_bayerDither, GLSL_simplex3D } from 'kedan';
 
 const fragmentShader = /*glsl*/ `
 uniform bool uDither;
@@ -104,13 +99,13 @@ class SimplexGradientBackground extends Background {
       uColor3: new Uniform(new Color(color3)),
       uColor4: new Uniform(new Color(color4)),
 
-      uStop1: new Uniform(new Vector2().copy(getVector3(stop1))),
-      uStop2: new Uniform(new Vector2().copy(getVector3(stop2))),
-      uStop3: new Uniform(new Vector2().copy(getVector3(stop3))),
-      uStop4: new Uniform(new Vector2().copy(getVector3(stop4))),
+      uStop1: new Uniform(new Vector2().copy(getVector(stop1))),
+      uStop2: new Uniform(new Vector2().copy(getVector(stop2))),
+      uStop3: new Uniform(new Vector2().copy(getVector(stop3))),
+      uStop4: new Uniform(new Vector2().copy(getVector(stop4))),
 
       uDither: new Uniform(dither),
-      uNoiseScale: new Uniform(getVector3(noiseScale)),
+      uNoiseScale: new Uniform(getVector(noiseScale)),
       uOffset: new Uniform(0),
     };
 

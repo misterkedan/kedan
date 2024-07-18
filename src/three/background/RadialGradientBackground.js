@@ -1,7 +1,7 @@
 import { Color, MathUtils, Uniform } from 'three';
 import {
   Background,
-  getVector3,
+  getVector,
   GLSL_bayerDither,
   GLSL_radialGradient,
 } from 'kedan';
@@ -44,7 +44,7 @@ class RadialGradientBackground extends Background {
         uColor1: new Uniform(new Color(color1)),
         uColor2: new Uniform(new Color(color2)),
         uDither: new Uniform(dither),
-        uOrigin: new Uniform(getVector3(origin)),
+        uOrigin: new Uniform(getVector(origin)),
         uRadius: new Uniform(radius),
       },
     });

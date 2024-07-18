@@ -1,5 +1,5 @@
 import { MathUtils, Vector3 } from 'three';
-import { getVector3 } from 'kedan';
+import { getVector } from 'kedan';
 
 class CameraRig {
   constructor({
@@ -14,13 +14,13 @@ class CameraRig {
     this.enabled = enabled;
     this.speed = speed;
 
-    this.lookAt = getVector3(lookAt);
-    this.bounds = getVector3(bounds);
+    this.lookAt = getVector(lookAt);
+    this.bounds = getVector(bounds);
     this.origin = new Vector3().copy(camera.position);
     this.target = new Vector3();
 
     if (intro) {
-      this.camera.position.copy(getVector3(intro));
+      this.camera.position.copy(getVector(intro));
       this.camera.lookAt(this.lookAt);
     } else {
       this.set(0.5, 0.5);

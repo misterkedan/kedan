@@ -6,4 +6,5 @@ const sketchpad = new KEDAN.Sketchpad({
 });
 sketchpad.open(floatingCube);
 
+window.kedan = KEDAN;
 console.log({ kedan: { ...KEDAN }, sketchpad });
