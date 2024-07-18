@@ -86,6 +86,7 @@ class Settings {
         const name = config.name || 'settings';
         return `${stringToKey(author)}-${stringToKey(name)}`;
       })();
+    config.name = name;
     this.config = config;
     this.sketch = sketch;
     this.defaults = {
