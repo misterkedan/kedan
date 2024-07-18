@@ -92,7 +92,7 @@ export const getVector = (input = 0, input2, input3, input4) => {
 
   if (is.array(input)) input = arrayToXYZW(input);
   else if (is.number(input) && !is.number(input2)) input = numberToXYZW(input);
-  else {
+  else if (!is.number(input)) {
     input = { ...input };
     if (!input.w) {
       const isVector =
