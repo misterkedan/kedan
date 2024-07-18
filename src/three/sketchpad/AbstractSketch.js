@@ -58,7 +58,7 @@ class AbstractSketch extends Disposable {
     if (bloom) this.effects.add('bloom', new BloomPass(bloom));
     if (radialBlur)
       this.effects.add('radialBlur', new RadialBlurPass(radialBlur));
-    if (output) this.effects.add('output', new OutputPass());
+    if (output || ssao) this.effects.add('output', new OutputPass());
   }
 
   init(sketchpad = this.sketchpad) {
