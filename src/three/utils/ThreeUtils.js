@@ -54,7 +54,7 @@ export const customizeShader = (
   if (fragmentHead)
     shader = editShader(shader, {
       fragment: true,
-      token: beginVertex,
+      token: head,
       after: fragmentHead,
     });
   if (fragmentBody)
