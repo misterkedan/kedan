@@ -18,12 +18,14 @@ class Stage extends Disposable {
   }
 
   initCamera(input = {}) {
-    if (input instanceof Camera) return (this.camera = input);
+    if (input instanceof Camera) {
+      this.camera = input;
+      return;
+    }
 
     const { fov, aspect, near, far } = input;
     this.camera = new PerspectiveCamera(fov, aspect, near, far);
-
-    this.camera.position.copy(getVector(input.start, 2));
+    this.camera.position.copy(getVector(input.start));
     this.camera.lookAt(getVector(input.lookAt));
   }
 
@@ -31,7 +33,6 @@ class Stage extends Disposable {
     if (!options) return;
 
     const isGradient = options.color1 && options.color2;
-
     if (!isGradient) {
       this.background = new Color(options);
       this.scene.background = this.background;
