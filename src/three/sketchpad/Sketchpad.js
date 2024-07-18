@@ -10,8 +10,8 @@ import {
 
 class Sketchpad extends Disposable {
   constructor({
-    container = 'sketchpad',
-    overlay = 'sketchpad-overlay',
+    id,
+    parent = document.body,
     renderer = {
       powerPreference: 'high-performance',
       stencil: false,
@@ -19,6 +19,7 @@ class Sketchpad extends Disposable {
     autoStart = true,
     autoTitle = true,
     autoFooter = true,
+    overlay = true,
     debug = false,
     fps = 60,
     width,
@@ -43,12 +44,19 @@ class Sketchpad extends Disposable {
     this.ticker = new Ticker(this.tick.bind(this), fps);
 
     // DOM
-    this.container = getElement(container);
-    this.container.appendChild(this.canvas);
+    this.parent = getElement(parent);
+    const domElement = document.createElement('div');
+    if (id) domElement.setAttribute('id', id);
+    domElement.classList.add('sketchpad');
+    domElement.appendChild(this.canvas);
     if (overlay) {
-      overlay = getElement(overlay, this.container);
+      const overlay = document.createElement('div');
+      overlay.classList.add('sketchpad-overlay');
+      domElement.appendChild(overlay);
       this.overlay = new Overlay(overlay, stats || debug);
     }
+    this.parent.appendChild(domElement);
+    this.domElement = domElement;
 
     // Size
     this.width = width;
@@ -65,14 +73,17 @@ class Sketchpad extends Disposable {
     this.onResize = function () {
       this.needsResize = true;
     }.bind(this);
-
     window.addEventListener('resize', this.onResize);
   }
 
   dispose() {
     window.removeEventListener('resize', this.onResize);
     this.onResize = undefined;
+    this.ticker.stop();
     super.dispose();
+    this.sketch.dispose();
+    this.renderer.dispose();
+    this.parent.removeChild(this.domElement);
   }
 
   open(sketch) {
@@ -80,18 +91,15 @@ class Sketchpad extends Disposable {
       await sketch.preload();
       sketch.init(this);
       this.sketch = sketch;
-
       if (this.autoTitle) document.title = this.getAutoTitle();
       if (this.autoFooter) this.overlay?.setAutoFooter(sketch.settings.config);
       if (this.autoStart) this.start();
-
       resolve();
     });
   }
 
   start(time = 0) {
     this.needsResize = true;
-
     this.ticker.time = time;
     this.ticker.start();
   }
@@ -101,19 +109,15 @@ class Sketchpad extends Disposable {
     this.height = height;
     if (!width) width = window.innerWidth;
     if (!height) height = window.innerHeight;
-
     this.renderer.setSize(width, height);
     this.sketch?.resize(width, height, this.pixelRatio);
-
     this.needsResize = false;
   }
 
   tick(delta, time) {
     if (this.needsResize) this.resize();
-
     this.sketch?.tick(delta, time);
     this.overlay?.tick();
-
     if (this.savePNGRequested) {
       saveCanvasAsPNG(this.canvas, this.sketch.name);
       this.savePNGRequested = false;
@@ -122,7 +126,6 @@ class Sketchpad extends Disposable {
 
   savePNG() {
     if (!this.sketch) return;
-
     this.savePNGRequested = true;
     if (!this.ticker.playing) this.ticker.tick();
   }

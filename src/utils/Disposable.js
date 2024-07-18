@@ -1,13 +1,11 @@
 import { dispose } from 'kedan';
 
 class Disposable {
-  constructor() {}
-
   /**
    * Disposes all ressources used by this instance
    */
-  dispose() {
-    dispose(this);
+  dispose(skip) {
+    dispose(this, skip);
   }
 }
 

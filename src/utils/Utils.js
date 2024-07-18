@@ -79,6 +79,9 @@ export const trimFloat = (float, decimals = 4, method = Math.round) => {
 
 export const clone = (object) => JSON.parse(JSON.stringify(object));
 
-export const dispose = (object) => {
-  Object.values(object).forEach((value) => value?.dispose?.());
+export const dispose = (object, skip = ['renderer', 'sketch', 'sketchpad']) => {
+  if (!is.array(skip)) skip = [];
+  Object.entries(object).forEach(([key, value]) => {
+    if (!skip.includes(key)) value?.dispose?.();
+  });
 };
