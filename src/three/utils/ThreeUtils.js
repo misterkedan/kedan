@@ -43,24 +43,25 @@ export const customizeShader = (
   { vertexHead, vertexBody, fragmentHead, fragmentBody, debug = false } = {}
 ) => {
   // THREE tokens (r165)
-  const head = '#include <common>';
-  const beginVertex = '#include <begin_vertex>';
-  const endFragment = '#include <logdepthbuf_fragment>';
+  const vHeadToken = '#include <common>';
+  const vBodyToken = '#include <begin_vertex>';
+  const fHeadToken = '#include <packing>';
+  const fBodyToken = '#include <logdepthbuf_fragment>';
 
   if (vertexHead)
-    shader = editShader(shader, { token: head, after: vertexHead });
+    shader = editShader(shader, { token: vHeadToken, after: vertexHead });
   if (vertexBody)
-    shader = editShader(shader, { token: beginVertex, after: vertexBody });
+    shader = editShader(shader, { token: vBodyToken, after: vertexBody });
   if (fragmentHead)
     shader = editShader(shader, {
       fragment: true,
-      token: head,
-      after: fragmentHead,
+      token: fHeadToken,
+      before: fragmentHead,
     });
   if (fragmentBody)
     shader = editShader(shader, {
       fragment: true,
-      token: endFragment,
+      token: fBodyToken,
       before: fragmentBody,
     });
 
